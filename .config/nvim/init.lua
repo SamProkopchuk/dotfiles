@@ -1,0 +1,5 @@
+require("user.options")
+require("user.plugins")
+require("user.colorscheme")
+require("user.neoscroll")
+require("user.nvim-tree")
