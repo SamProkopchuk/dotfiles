@@ -12,9 +12,9 @@ git clone --bare <git-repo-url> $HOME/dotfiles
 
 This will ensure the repo is cloned as a bare repo.
 
-Next, you must __immediately__ run the setup.sh script provided:
+Next, you must __immediately__ run the setup_dotfiles.sh script provided:
 
 ```bash
-$HOME/setup_dotfiles.sh
+chmod +x $HOME/setup_dotfiles.sh && $HOME/setup_dotfiles.sh
 ```
 
