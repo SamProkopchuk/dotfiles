@@ -113,33 +113,8 @@ source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# Optional aliases file
+[[ ! -f ~/.aliases.zsh ]] || source ~/.aliases.zsh
+# Optional file for additional os-specific config
+[[ ! -f ~/.privatezshrc ]] || source ~/.privatezshrc
 
-# >>> mamba initialize >>>
-# !! Contents within this block are managed by 'mamba init' !!
-export MAMBA_EXE="/Users/samprokopchuk/temp/micromamba";
-export MAMBA_ROOT_PREFIX="/Users/samprokopchuk/micromamba";
-__mamba_setup="$('/Users/samprokopchuk/temp/micromamba' shell hook --shell zsh --prefix '/Users/samprokopchuk/micromamba' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-else
-    if [ -f "/Users/samprokopchuk/micromamba/etc/profile.d/micromamba.sh" ]; then
-        . "/Users/samprokopchuk/micromamba/etc/profile.d/micromamba.sh"
-    else
-        export  PATH="/Users/samprokopchuk/micromamba/bin:$PATH"  # extra space after export prevents interference from conda init
-    fi
-fi
-unset __mamba_setup
-# <<< mamba initialize <<<
-alias v=nvim
-alias vim=nvim
-alias sn_jupyterlab="docker run -p 8888:8888 -v \$(pwd):/resources --platform linux/x86_64 skillsnetworkbot/jupyterlab-authoring:latest jupyter lab --ip 0.0.0.0 --ServerApp.password='' --ServerApp.token='' --port 8888 --no-browser --allow-root"
-export TERM=rxvt-256color
-export NVM_DIR="$HOME/.nvm"
-[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-export LIBTOOL=`which glibtool`
-export LIBTOOLIZE=`which glibtoolize`
-
-alias config='/usr/bin/git --git-dir=/Users/samprokopchuk/dotfiles/ --work-tree=/Users/samprokopchuk'
-alias config='/usr/bin/git --git-dir=/Users/samprokopchuk/dotfiles/ --work-tree=/Users/samprokopchuk'
-alias config='/usr/bin/git --git-dir=/Users/samprokopchuk/dotfiles/ --work-tree=/Users/samprokopchuk'
