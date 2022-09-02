@@ -7,7 +7,7 @@ This is my dotfiles repo, the structure is inspired by [this article by Atlassan
 To clone properly, run the following:
 
 ```bash
-git clone --bare <git-repo-url> $HOME/dotfiles
+git clone --bare https://github.com/SamProkopchuk/dotfiles.git $HOME/dotfiles
 ```
 
 This will ensure the repo is cloned as a bare repo.
