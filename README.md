@@ -10,9 +10,14 @@ To clone properly, run the following:
 git clone --bare https://github.com/SamProkopchuk/dotfiles.git $HOME/dotfiles
 ```
 
-This will ensure the repo is cloned as a bare repo.
+Then run the following to clone the actual content:
 
-Next, you must __immediately__ run the setup_dotfiles.sh script provided:
+```bash
+alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
+config checkout
+```
+
+Next, you __must__ run the setup_dotfiles.sh script provided:
 
 ```bash
 chmod +x $HOME/setup_dotfiles.sh && $HOME/setup_dotfiles.sh
