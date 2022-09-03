@@ -2,6 +2,7 @@ local wezterm = require 'wezterm'
 
 return {
   font = wezterm.font('Iosevka Curly Light'),
+  font_size = 16.0,
   default_cursor_style = 'BlinkingBar',
   cursor_blink_rate = 469,
   cursor_blink_ease_in = 'Constant',
