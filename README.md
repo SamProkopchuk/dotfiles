@@ -1,6 +1,8 @@
 # dotfiles
 
-This is my dotfiles repo, the structure is inspired by [this article by Atlassan](https://www.atlassian.com/git/tutorials/dotfiles).
+This is my dotfiles repo, c collection of some configuration files I use.
+
+The structure is inspired by [this article by Atlassian](https://www.atlassian.com/git/tutorials/dotfiles).
 
 ## Setting up locally
 
@@ -22,6 +24,10 @@ Next, you __must__ run the setup_dotfiles.sh script provided:
 ```bash
 chmod +x $HOME/setup_dotfiles.sh && $HOME/setup_dotfiles.sh
 ```
+
+Among other things, this ensures only the files in this repo are tracked by git (via the `config` alias).
+
+See the Atlassian article for more info.
 
 ## Iosevka
 
