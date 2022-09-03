@@ -23,3 +23,6 @@ Next, you __must__ run the setup_dotfiles.sh script provided:
 chmod +x $HOME/setup_dotfiles.sh && $HOME/setup_dotfiles.sh
 ```
 
+## Iosevka
+
+To install the custom Iosevka font using `private-build-plans.toml`, follow [these instructions](https://github.com/be5invis/Iosevka/blob/master/doc/custom-build.md).
