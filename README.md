@@ -1,6 +1,6 @@
 # dotfiles
 
-This is my dotfiles repo, c collection of some configuration files I use.
+This is my dotfiles repo, a collection of some configuration files I use.
 
 The structure is inspired by [this article by Atlassian](https://www.atlassian.com/git/tutorials/dotfiles).
 
