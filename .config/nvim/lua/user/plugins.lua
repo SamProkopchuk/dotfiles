@@ -45,7 +45,10 @@ return packer.startup(function(use)
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "EdenEast/nightfox.nvim" -- nightfox color scheme
-  use "nvim-treesitter/nvim-treesitter" -- parser, syntax highlighting
+  use {
+    "nvim-treesitter/nvim-treesitter",
+    run = ":TSUpdate",
+  }
   use "karb94/neoscroll.nvim" -- smooth scrolling plugin
   use { "kyazdani42/nvim-tree.lua",
     requires = {
