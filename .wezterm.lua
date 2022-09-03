@@ -8,5 +8,6 @@ return {
   cursor_blink_ease_out = 'Constant', 
   color_scheme = 'carbonfox',
   adjust_window_size_when_changing_font_size = false,
+  warn_about_missing_glyphs = false,
 }
 
