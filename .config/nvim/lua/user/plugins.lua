@@ -42,6 +42,7 @@ packer.init {
 return packer.startup(function(use)
   -- My plugins here
   use "wbthomason/packer.nvim" -- Have packer manage itself
+  use "neovim/nvim-lspconfig" -- Configurations for Nvim LSP
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
   use "EdenEast/nightfox.nvim" -- nightfox color scheme
@@ -50,12 +51,15 @@ return packer.startup(function(use)
     run = ":TSUpdate",
   }
   use "karb94/neoscroll.nvim" -- smooth scrolling plugin
-  use { "kyazdani42/nvim-tree.lua",
+  use {
+    "kyazdani42/nvim-tree.lua",
     requires = {
       "kyazdani42/nvim-web-devicons", -- optional, for file icons
     },
     tag = "nightly" -- optional, updated every week. (see issue #1193)
   }
+  use "ms-jpq/coq.artifacts"
+  use "ms-jpq/coq_nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
