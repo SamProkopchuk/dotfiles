@@ -60,6 +60,9 @@ return packer.startup(function(use)
   }
   use "ms-jpq/coq.artifacts"
   use "ms-jpq/coq_nvim"
+  use "tpope/vim-fugitive"
+  use "sbdchd/neoformat"
+  use "nvim-telescope/telescope.nvim"
 
   -- Automatically set up your configuration after cloning packer.nvim
   -- Put this at the end after all plugins
