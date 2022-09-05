@@ -1,7 +1,7 @@
 alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 config config --local status.showUntrackedFiles no
 
-requirements=("zsh" "wezterm" "nvim")
+requirements=("zsh" "wezterm" "nvim" "git" "rg")
 
 for cmd in "${requirements[@]}"
 do
