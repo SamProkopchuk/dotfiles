@@ -45,7 +45,7 @@ return packer.startup(function(use)
   use "neovim/nvim-lspconfig" -- Configurations for Nvim LSP
   use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
   use "nvim-lua/plenary.nvim" -- Useful lua functions used ny lots of plugins
-  use "EdenEast/nightfox.nvim" -- nightfox color scheme
+  use "rmehri01/onenord.nvim"
   use {
     "nvim-treesitter/nvim-treesitter",
     run = ":TSUpdate",
