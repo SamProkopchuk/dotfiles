@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/coq_nvim",
     url = "https://github.com/ms-jpq/coq_nvim"
   },
+  ["gruvbox.nvim"] = {
+    loaded = true,
+    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
+    url = "https://github.com/ellisonleao/gruvbox.nvim"
+  },
   neoformat = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/neoformat",
@@ -113,11 +118,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
-  },
-  ["onenord.nvim"] = {
-    loaded = true,
-    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/onenord.nvim",
-    url = "https://github.com/rmehri01/onenord.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,
