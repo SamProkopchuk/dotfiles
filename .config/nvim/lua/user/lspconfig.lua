@@ -1,10 +1,10 @@
-lspconfig = require("lspconfig")
+local lspconfig = require("lspconfig")
 local vim = vim
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-mason = require("mason")
+local mason = require("mason")
 mason.setup({
     ensure_installed = {
         pyright = {},
@@ -134,8 +134,8 @@ local function make_config(server_name)
     return c
 end
 
-coq = require("coq")
-mason_lspconfig = require("mason-lspconfig")
+local coq = require("coq")
+local mason_lspconfig = require("mason-lspconfig")
 local servers = mason_lspconfig.get_installed_servers()
 for _, server in pairs(servers) do
     local config = make_config(server)
@@ -163,3 +163,4 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] =
         signs = true,
         update_in_insert = false
     })
+
