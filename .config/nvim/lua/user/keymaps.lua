@@ -1,11 +1,12 @@
-local opts = { noremap = true, silent = true }
+local vim = vim
 
-local term_opts = { silent = true }
+local opts = {noremap = true, silent = true}
+local term_opts = {silent = true}
 
 -- Shorten function name
 local keymap = vim.api.nvim_set_keymap
 
---Remap space as leader key
+-- Remap space as leader key
 keymap("", "<Space>", "<Nop>", opts)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
@@ -25,7 +26,7 @@ keymap("n", "<C-j>", "<C-w>j", opts)
 keymap("n", "<C-k>", "<C-w>k", opts)
 keymap("n", "<C-l>", "<C-w>l", opts)
 
-keymap("n", "<leader>e", ":Lex 30<cr>", opts)
+keymap("n", "<leader>e", ":NvimTreeToggle <cr>", opts)
 
 -- Resize with arrows
 keymap("n", "<C-Up>", ":resize -2<CR>", opts)
@@ -69,6 +70,6 @@ keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
 keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
 keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
 
--- keymap("n", "<c-f>", "<cmd>Telescope find_files<cr>", opts)
+keymap("n", "<c-f>", "<cmd>FzfLua lgrep_curbuf<cr>", opts)
 keymap("n", "<c-t>", "<cmd>FzfLua live_grep_native<cr>", opts)
 
