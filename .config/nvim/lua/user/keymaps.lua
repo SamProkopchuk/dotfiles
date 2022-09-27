@@ -1,15 +1,22 @@
 local vim = vim
 
-local opts = {noremap = true, silent = true}
-local term_opts = {silent = true}
+local function map(mode, lhs, rhs, opts)
+    local options = {noremap = true, silent = true}
+    if opts then options = vim.tbl_extend("force", options) end
+    vim.keymap.set(mode, lhs, rhs, options)
+end
 
--- Shorten function name
-local keymap = vim.api.nvim_set_keymap
+-- gigachad
+map("", "<up>", "<nop>")
+map("", "<down>", "<nop>")
+map("", "<left>", "<nop>")
+map("", "<right>", "<nop>")
+-- endgigachad
 
 -- Remap space as leader key
-keymap("", "<Space>", "<Nop>", opts)
+map("", "<Space>", "<Nop>")
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = vim.g.mapleader
 
 -- Modes
 --   normal_mode = "n",
@@ -21,55 +28,56 @@ vim.g.maplocalleader = " "
 
 -- Normal --
 -- Better window navigation
-keymap("n", "<C-h>", "<C-w>h", opts)
-keymap("n", "<C-j>", "<C-w>j", opts)
-keymap("n", "<C-k>", "<C-w>k", opts)
-keymap("n", "<C-l>", "<C-w>l", opts)
 
-keymap("n", "<leader>e", ":NvimTreeToggle <cr>", opts)
+map("", "<C-h>", "<C-w>h")
+map("", "<C-j>", "<C-w>j")
+map("", "<C-k>", "<C-w>k")
+map("", "<C-l>", "<C-w>l")
+
+map("", "<leader>e", ":NvimTreeToggle <cr>")
 
 -- Resize with arrows
-keymap("n", "<C-Up>", ":resize -2<CR>", opts)
-keymap("n", "<C-Down>", ":resize +2<CR>", opts)
-keymap("n", "<C-Left>", ":vertical resize -2<CR>", opts)
-keymap("n", "<C-Right>", ":vertical resize +2<CR>", opts)
+map("n", "<A-k>", ":resize -2<CR>")
+map("n", "<A-j>", ":resize +2<CR>")
+map("n", "<A-h>", ":vertical resize -2<CR>")
+map("n", "<A-l>", ":vertical resize +2<CR>")
 
 -- Navigate buffers
-keymap("n", "<S-l>", ":bnext<CR>", opts)
-keymap("n", "<S-h>", ":bprevious<CR>", opts)
+map("n", "<S-l>", ":bnext<CR>")
+map("n", "<S-h>", ":bprevious<CR>")
 
 -- Move text up and down
-keymap("n", "<A-j>", "<Esc>:m .+1<CR>==gi", opts)
-keymap("n", "<A-k>", "<Esc>:m .-2<CR>==gi", opts)
+map("n", "<A-j>", "<Esc>:m .+1<CR>==gi")
+map("n", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- Insert --
 -- Press jk fast to enter
-keymap("i", "jk", "<ESC>", opts)
+map("", "<A-]>", "<ESC>")
 
 -- Visual --
 -- Stay in indent mode
-keymap("v", "<", "<gv", opts)
-keymap("v", ">", ">gv", opts)
+map("v", "<", "<gv")
+map("v", ">", ">gv")
 
 -- Move text up and down
-keymap("v", "<A-j>", ":m .+1<CR>==", opts)
-keymap("v", "<A-k>", ":m .-2<CR>==", opts)
-keymap("v", "p", '"_dP', opts)
+map("v", "<A-j>", ":m .+1<CR>==")
+map("v", "<A-k>", ":m .-2<CR>==")
+map("v", "p", '"_dP')
 
 -- Visual Block --
 -- Move text up and down
-keymap("x", "J", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "K", ":move '<-2<CR>gv-gv", opts)
-keymap("x", "<A-j>", ":move '>+1<CR>gv-gv", opts)
-keymap("x", "<A-k>", ":move '<-2<CR>gv-gv", opts)
+map("x", "J", ":move '>+1<CR>gv-gv")
+map("x", "K", ":move '<-2<CR>gv-gv")
+map("x", "<A-j>", ":move '>+1<CR>gv-gv")
+map("x", "<A-k>", ":move '<-2<CR>gv-gv")
 
 -- Terminal --
 -- Better terminal navigation
-keymap("t", "<C-h>", "<C-\\><C-N><C-w>h", term_opts)
-keymap("t", "<C-j>", "<C-\\><C-N><C-w>j", term_opts)
-keymap("t", "<C-k>", "<C-\\><C-N><C-w>k", term_opts)
-keymap("t", "<C-l>", "<C-\\><C-N><C-w>l", term_opts)
+map("t", "<C-h>", "<C-\\><C-N><C-w>h")
+map("t", "<C-j>", "<C-\\><C-N><C-w>j")
+map("t", "<C-k>", "<C-\\><C-N><C-w>k")
+map("t", "<C-l>", "<C-\\><C-N><C-w>l")
 
-keymap("n", "<c-f>", "<cmd>FzfLua lgrep_curbuf<cr>", opts)
-keymap("n", "<c-t>", "<cmd>FzfLua live_grep_native<cr>", opts)
+map("n", "<C-f>", "<cmd>FzfLua lgrep_curbuf<cr>")
+map("n", "<C-t>", "<cmd>FzfLua live_grep_native<cr>")
 
