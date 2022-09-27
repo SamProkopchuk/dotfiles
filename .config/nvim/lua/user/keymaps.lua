@@ -35,6 +35,7 @@ map("", "<C-k>", "<C-w>k")
 map("", "<C-l>", "<C-w>l")
 
 map("", "<leader>e", ":NvimTreeToggle <cr>")
+map("n", "<leader>t", ":terminal <cr>")
 
 -- Resize with arrows
 map("n", "<A-k>", ":resize -2<CR>")
@@ -51,7 +52,6 @@ map("n", "<A-j>", "<Esc>:m .+1<CR>==gi")
 map("n", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- Insert --
--- Press jk fast to enter
 map("", "<A-]>", "<ESC>")
 
 -- Visual --
