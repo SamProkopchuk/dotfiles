@@ -64,6 +64,12 @@ return packer.startup(function(use)
             {"junegunn/fzf", run = "./install --bin"}
         }
     }
+    use {
+        "akinsho/bufferline.nvim",
+        tag = "v2.*",
+        requires = "kyazdani42/nvim-web-devicons"
+    }
+    use {"moll/vim-bbye"}
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then require("packer").sync() end
