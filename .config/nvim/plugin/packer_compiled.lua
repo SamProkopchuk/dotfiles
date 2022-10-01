@@ -119,11 +119,6 @@ _G.packer_plugins = {
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/neoscroll.nvim",
     url = "https://github.com/karb94/neoscroll.nvim"
   },
-  ["nightfox.nvim"] = {
-    loaded = true,
-    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
-    url = "https://github.com/EdenEast/nightfox.nvim"
-  },
   ["nvim-lspconfig"] = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/nvim-lspconfig",
@@ -148,6 +143,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/packer.nvim",
     url = "https://github.com/wbthomason/packer.nvim"
+  },
+  spaceduck = {
+    loaded = true,
+    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/spaceduck",
+    url = "https://github.com/pineapplegiant/spaceduck"
   },
   ["vim-bbye"] = {
     loaded = true,
