@@ -7,7 +7,7 @@ return {
     cursor_blink_rate = 469,
     cursor_blink_ease_in = "Constant",
     cursor_blink_ease_out = "Constant",
-    color_scheme = "Gruvbox Dark",
+    color_scheme = "nightfox",
     adjust_window_size_when_changing_font_size = false,
     warn_about_missing_glyphs = false
 }

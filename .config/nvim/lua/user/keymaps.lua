@@ -77,6 +77,8 @@ map("t", "<C-h>", "<C-\\><C-N><C-w>h")
 map("t", "<C-j>", "<C-\\><C-N><C-w>j")
 map("t", "<C-k>", "<C-\\><C-N><C-w>k")
 map("t", "<C-l>", "<C-\\><C-N><C-w>l")
+map("t", "<A-]>", "<C-\\><C-N>")
+map("t", "<ESC>", "<C-\\><C-N>")
 
 map("n", "<C-f>", "<cmd>FzfLua lgrep_curbuf<cr>")
 map("n", "<C-t>", "<cmd>FzfLua live_grep_native<cr>")

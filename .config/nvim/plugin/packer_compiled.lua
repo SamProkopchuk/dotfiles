@@ -99,11 +99,6 @@ _G.packer_plugins = {
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/fzf-lua",
     url = "https://github.com/ibhagwan/fzf-lua"
   },
-  ["gruvbox.nvim"] = {
-    loaded = true,
-    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
-    url = "https://github.com/ellisonleao/gruvbox.nvim"
-  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
@@ -123,6 +118,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/neoscroll.nvim",
     url = "https://github.com/karb94/neoscroll.nvim"
+  },
+  ["nightfox.nvim"] = {
+    loaded = true,
+    path = "/Users/samprokopchuk/.local/share/nvim/site/pack/packer/start/nightfox.nvim",
+    url = "https://github.com/EdenEast/nightfox.nvim"
   },
   ["nvim-lspconfig"] = {
     loaded = true,

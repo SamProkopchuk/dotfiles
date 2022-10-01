@@ -41,7 +41,7 @@ return packer.startup(function(use)
         "neovim/nvim-lspconfig"
     }
     -- use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-    use {"ellisonleao/gruvbox.nvim"}
+    use {"EdenEast/nightfox.nvim"}
     use {
         "nvim-treesitter/nvim-treesitter",
         run = function()
