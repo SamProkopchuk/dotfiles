@@ -26,33 +26,37 @@ vim.g.maplocalleader = vim.g.mapleader
 --   term_mode = "t",
 --   command_mode = "c",
 
--- Normal --
+-- All modes:
+-- Close buffer or "tab"<CMD>
+map("", "<C-w>", "<ESC> <CMD>bd<CR><BAR><CMD>bprevious<CR>")
+map("", "<A-]>", "<ESC>")
+map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
-
 map("", "<C-h>", "<C-w>h")
 map("", "<C-j>", "<C-w>j")
 map("", "<C-k>", "<C-w>k")
 map("", "<C-l>", "<C-w>l")
+map("", "<leader>e", "<CMD>NvimTreeToggle <CR>")
 
-map("", "<leader>e", ":NvimTreeToggle <cr>")
-map("n", "<leader>t", ":terminal <cr>")
+-- Normal --
+
+map("n", "<leader>t", "<CMD>terminal <CR>")
 
 -- Resize with arrows
-map("n", "<A-k>", ":resize -2<CR>")
-map("n", "<A-j>", ":resize +2<CR>")
-map("n", "<A-h>", ":vertical resize -2<CR>")
-map("n", "<A-l>", ":vertical resize +2<CR>")
+map("n", "<A-k>", "<CMD>resize -2<CR>")
+map("n", "<A-j>", "<CMD>resize +2<CR>")
+map("n", "<A-h>", "<CMD>vertical resize -2<CR>")
+map("n", "<A-l>", "<CMD>vertical resize +2<CR>")
 
 -- Navigate buffers
-map("n", "<S-l>", ":bnext<CR>")
-map("n", "<S-h>", ":bprevious<CR>")
+map("n", "<S-l>", "<CMD>bnext<CR>")
+map("n", "<S-h>", "<CMD>bprevious<CR>")
 
 -- Move text up and down
 map("n", "<A-j>", "<Esc>:m .+1<CR>==gi")
 map("n", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- Insert --
-map("", "<A-]>", "<ESC>")
 
 -- Visual --
 -- Stay in indent mode
@@ -60,16 +64,16 @@ map("v", "<", "<gv")
 map("v", ">", ">gv")
 
 -- Move text up and down
-map("v", "<A-j>", ":m .+1<CR>==")
-map("v", "<A-k>", ":m .-2<CR>==")
+map("v", "<A-j>", "<CMD>m .+1<CR>==")
+map("v", "<A-k>", "<CMD>m .-2<CR>==")
 map("v", "p", '"_dP')
 
 -- Visual Block --
 -- Move text up and down
-map("x", "J", ":move '>+1<CR>gv-gv")
-map("x", "K", ":move '<-2<CR>gv-gv")
-map("x", "<A-j>", ":move '>+1<CR>gv-gv")
-map("x", "<A-k>", ":move '<-2<CR>gv-gv")
+map("x", "J", "<CMD>move '>+1<CR>gv-gv")
+map("x", "K", "<CMD>move '<-2<CR>gv-gv")
+map("x", "<A-j>", "<CMD>move '>+1<CR>gv-gv")
+map("x", "<A-k>", "<CMD>move '<-2<CR>gv-gv")
 
 -- Terminal --
 -- Better terminal navigation
@@ -80,6 +84,6 @@ map("t", "<C-l>", "<C-\\><C-N><C-w>l")
 map("t", "<A-]>", "<C-\\><C-N>")
 map("t", "<ESC>", "<C-\\><C-N>")
 
-map("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
-map("n", "<C-t>", "<cmd>Telescope live_grep<cr>")
+map("n", "<C-f>", "<CMD>Telescope current_buffer_fuzzy_find<CR>")
+map("n", "<C-t>", "<CMD>Telescope live_grep<CR>")
 
