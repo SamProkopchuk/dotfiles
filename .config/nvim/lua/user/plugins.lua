@@ -48,6 +48,7 @@ return packer.startup(function(use)
             require('nvim-treesitter.install').update({with_sync = true})
         end
     }
+    use {"p00f/clangd_extensions.nvim"}
     use {"karb94/neoscroll.nvim"} -- smooth scrolling plugin
     use {
         "kyazdani42/nvim-tree.lua",
@@ -57,8 +58,14 @@ return packer.startup(function(use)
     use {"ms-jpq/coq_nvim", requires = {"ms-jpq/coq.artifacts"}}
     use {"tpope/vim-fugitive"}
     use {"sbdchd/neoformat"}
-    use {"ibhagwan/fzf-lua", requires = {"kyazdani42/nvim-web-devicons"}}
-    use {"junegunn/fzf", run = "./install --bin"}
+    use {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        run = "make",
+        requires = {
+            "nvim-telescope/telescope.nvim",
+            requires = {{"nvim-lua/plenary.nvim"}}
+        }
+    }
     use {
         "akinsho/bufferline.nvim",
         tag = "v2.*",

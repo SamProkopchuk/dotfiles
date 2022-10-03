@@ -80,6 +80,6 @@ map("t", "<C-l>", "<C-\\><C-N><C-w>l")
 map("t", "<A-]>", "<C-\\><C-N>")
 map("t", "<ESC>", "<C-\\><C-N>")
 
-map("n", "<C-f>", "<cmd>FzfLua lgrep_curbuf<cr>")
-map("n", "<C-t>", "<cmd>FzfLua live_grep_native<cr>")
+map("n", "<C-f>", "<cmd>Telescope current_buffer_fuzzy_find<cr>")
+map("n", "<C-t>", "<cmd>Telescope live_grep<cr>")
 
