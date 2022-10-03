@@ -57,13 +57,8 @@ return packer.startup(function(use)
     use {"ms-jpq/coq_nvim", requires = {"ms-jpq/coq.artifacts"}}
     use {"tpope/vim-fugitive"}
     use {"sbdchd/neoformat"}
-    use {
-        "ibhagwan/fzf-lua",
-        requires = {
-            "kyazdani42/nvim-web-devicons",
-            {"junegunn/fzf", run = "./install --bin"}
-        }
-    }
+    use {"ibhagwan/fzf-lua", requires = {"kyazdani42/nvim-web-devicons"}}
+    use {"junegunn/fzf", run = "./install --bin"}
     use {
         "akinsho/bufferline.nvim",
         tag = "v2.*",
