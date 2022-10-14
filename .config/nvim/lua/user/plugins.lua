@@ -56,7 +56,7 @@ return packer.startup(function(use)
         tag = "nightly" -- optional, updated every week. (see issue #1193)
     }
     use {"ms-jpq/coq_nvim", requires = {"ms-jpq/coq.artifacts"}}
-    use {"tpope/vim-fugitive"}
+    use {"akinsho/toggleterm.nvim", tag = "*"}
     use {"sbdchd/neoformat"}
     use {
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -72,6 +72,7 @@ return packer.startup(function(use)
         requires = "kyazdani42/nvim-web-devicons"
     }
     use {"moll/vim-bbye"}
+    use {"lukas-reineke/indent-blankline.nvim"}
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then require("packer").sync() end

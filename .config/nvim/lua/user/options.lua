@@ -1,4 +1,10 @@
 local vim = vim
+
+local set_tabwidth = function(num_spaces)
+    vim.opt.shiftwidth = num_spaces
+    vim.opt.tabstop = num_spaces
+end
+
 vim.opt.errorbells = false
 vim.opt.colorcolumn = "80"
 vim.opt.backup = false                          -- creates a backup file
@@ -23,8 +29,9 @@ vim.opt.undodir = os.getenv( "HOME" ) .. "/.nvim/undodir" -- directory for savin
 vim.opt.updatetime = 300                        -- faster completion (4000ms default)
 vim.opt.writebackup = false                     -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
 vim.opt.expandtab = true                        -- convert tabs to spaces
-vim.opt.shiftwidth = 4                          -- the number of spaces inserted for each indentation
-vim.opt.tabstop = 4                             -- insert 2 spaces for a tab
+set_tabwidth(4)
+-- vim.opt.shiftwidth = 4                          -- the number of spaces inserted for each indentation
+-- vim.opt.tabstop = vim.opt.shiftwidth            -- tab = indentation size
 vim.opt.cursorline = true                       -- highlight the current line
 vim.opt.number = true                           -- set numbered lines
 vim.opt.relativenumber = true                   -- set relative numbered lines
@@ -34,3 +41,9 @@ vim.opt.wrap = false                            -- display lines as one long lin
 vim.opt.scrolloff = 8                           -- minimum number of lines to keep above and below cursor (if not at top or bottom)
 vim.opt.sidescrolloff = 8                       -- minimum number of columns to keep to left and right of cursor
 vim.opt.mouse = ""                              -- disable the mouse
+
+-- Change indentation for c, c++, h, files:
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {"c", "cc", "cpp", "h"},
+    callback = function() set_tabwidth(2) end
+})

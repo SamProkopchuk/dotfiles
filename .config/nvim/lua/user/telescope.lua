@@ -2,7 +2,7 @@ local status_ok, telescope = pcall(require, "telescope")
 if not status_ok then return end
 -- You dont need to set any of these options. These are the default ones. Only
 -- the loading is important
-require("telescope").setup {
+telescope.setup {
   extensions = {
     fzf = {
       fuzzy = true,                    -- false will only do exact matching
