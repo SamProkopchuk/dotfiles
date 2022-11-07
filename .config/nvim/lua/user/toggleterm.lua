@@ -11,5 +11,5 @@ toggleterm.setup {
     persist_mode = true, -- if set to true (default) the previous terminal mode will be remembered
     direction = "float",
     close_on_exit = true, -- close the terminal window when the process exits
-    float_opts = {border = "curved", winblend = 20}
+    float_opts = {border = "curved", winblend = 0}
 }

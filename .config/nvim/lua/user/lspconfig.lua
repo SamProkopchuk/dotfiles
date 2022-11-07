@@ -96,7 +96,6 @@ local on_attach = function(client, bufnr)
     -- 	handler_opts = { border = 'rounded' },
     -- 	zindex = 50,
     -- }, bufnr)
-
     if client.config.flags then
         client.config.flags.allow_incremental_sync = true
         -- client.config.flags.debounce_text_changes  = vim.opt.updatetime:get()
@@ -156,11 +155,11 @@ vim.fn.sign_define("LspDiagnosticsSignHint",
                    {text = "", numhl = "LspDiagnosticsDefaultHint"})
 
 -- set default prefix.
-vim.lsp.handlers["textDocument/publishDiagnostics"] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        -- virtual_text = false,
-        virtual_text = {prefix = ""},
-        signs = true,
-        update_in_insert = false
-    })
+vim.lsp.handlers["textDocument/publishDiagnostics"] = function() end
+-- vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+--     virtual_text = false,
+--     -- virtual_text = {prefix = ""},
+--     signs = false
+--     -- update_in_insert = false
+-- })
 
