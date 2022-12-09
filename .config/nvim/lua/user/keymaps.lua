@@ -86,4 +86,5 @@ map("t", "<ESC>", "<C-\\><C-N>")
 
 map("n", "<C-f>", "<CMD>Telescope current_buffer_fuzzy_find<CR>")
 map("n", "<C-t>", "<CMD>Telescope live_grep<CR>")
+map("", "<TAB>", "<CMD>ClangFormat<CR>")
 

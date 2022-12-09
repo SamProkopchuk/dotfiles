@@ -59,6 +59,7 @@ return packer.startup(function(use)
     use {"ms-jpq/coq_nvim", requires = {"ms-jpq/coq.artifacts"}}
     use {"akinsho/toggleterm.nvim", tag = "*"}
     use {"sbdchd/neoformat"}
+    use {"rhysd/vim-clang-format"}
     use {
         "nvim-telescope/telescope-fzf-native.nvim",
         run = "make",
