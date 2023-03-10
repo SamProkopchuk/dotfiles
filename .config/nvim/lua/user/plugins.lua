@@ -56,7 +56,16 @@ return packer.startup(function(use)
         requires = {"kyazdani42/nvim-web-devicons"},
         tag = "nightly" -- optional, updated every week. (see issue #1193)
     }
-    use {"ms-jpq/coq_nvim", requires = {"ms-jpq/coq.artifacts"}}
+    use {
+        'tzachar/cmp-tabnine',
+        run = './install.sh',
+        requires = 'hrsh7th/nvim-cmp'
+    }
+    use {"hrsh7th/nvim-cmp"}
+    use {"hrsh7th/cmp-nvim-lsp"}
+    use {"L3MON4D3/LuaSnip"}
+    use {"saadparwaiz1/cmp_luasnip"}
+    use {"rafamadriz/friendly-snippets"}
     use {"akinsho/toggleterm.nvim", tag = "*"}
     use {"sbdchd/neoformat"}
     use {"rhysd/vim-clang-format"}
@@ -75,6 +84,7 @@ return packer.startup(function(use)
     }
     use {"moll/vim-bbye"}
     use {"lukas-reineke/indent-blankline.nvim"}
+    use {"lervag/vimtex"}
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then require("packer").sync() end
