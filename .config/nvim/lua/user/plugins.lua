@@ -57,11 +57,12 @@ return packer.startup(function(use)
         tag = "nightly" -- optional, updated every week. (see issue #1193)
     }
     use {
-        'tzachar/cmp-tabnine',
-        run = './install.sh',
-        requires = 'hrsh7th/nvim-cmp'
+        "tzachar/cmp-tabnine",
+        run = "./install.sh",
+        requires = "hrsh7th/nvim-cmp"
     }
     use {"hrsh7th/nvim-cmp"}
+    use {"hrsh7th/cmp-path"}
     use {"hrsh7th/cmp-nvim-lsp"}
     use {"L3MON4D3/LuaSnip"}
     use {"saadparwaiz1/cmp_luasnip"}

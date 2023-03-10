@@ -103,7 +103,7 @@ cmp.setup {
         end
     },
     sources = {
-        {name = "luasnip", group_index = 1}, {
+        {name = "path", trailing_slash = true}, {name = "luasnip"}, {
             name = "buffer",
             option = {
                 get_bufnrs = function()
@@ -116,10 +116,8 @@ cmp.setup {
                     end
                     return {buf}
                 end
-            },
-            group_index = 2
-        }, {name = "path", group_index = 2},
-        {name = "nvim_lsp", group_index = 1}, {"cmp_tabnine", group_index = 1}
+            }
+        }, {name = "nvim_lsp"}, {name = "cmp_tabnine"}
     },
     confirm_opts = {behavior = cmp.ConfirmBehavior.Replace, select = false},
     window = {documentation = cmp.config.window.bordered()},

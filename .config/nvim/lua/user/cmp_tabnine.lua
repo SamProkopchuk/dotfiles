@@ -15,13 +15,3 @@ cmp_tabnine:setup({
     show_prediction_strength = false
 })
 
-local prefetch = vim.api.nvim_create_augroup("prefetch", {clear = true})
-
-vim.api.nvim_create_autocmd("BufRead", {
-    group = prefetch,
-    pattern = "*",
-    callback = function()
-        require("cmp_tabnine"):prefetch(vim.fn.expand('%:p'))
-    end
-})
-
