@@ -56,17 +56,13 @@ return packer.startup(function(use)
         requires = {"kyazdani42/nvim-web-devicons"},
         tag = "nightly" -- optional, updated every week. (see issue #1193)
     }
-    use {
-        "tzachar/cmp-tabnine",
-        run = "./install.sh",
-        requires = "hrsh7th/nvim-cmp"
-    }
     use {"hrsh7th/nvim-cmp"}
     use {"hrsh7th/cmp-path"}
     use {"hrsh7th/cmp-nvim-lsp"}
     use {"L3MON4D3/LuaSnip"}
     use {"saadparwaiz1/cmp_luasnip"}
     use {"rafamadriz/friendly-snippets"}
+    use {"github/copilot.vim"}
     use {"akinsho/toggleterm.nvim", tag = "*"}
     use {"sbdchd/neoformat"}
     use {"rhysd/vim-clang-format"}

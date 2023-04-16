@@ -51,6 +51,7 @@ cmp.setup {
             luasnip.lsp_expand(args.body) -- For `luasnip` users.
         end
     },
+    completion = {autocomplete = false},
     mapping = {
         ["<C-k>"] = cmp.mapping.select_prev_item(),
         ["<C-j>"] = cmp.mapping.select_next_item(),
@@ -117,17 +118,9 @@ cmp.setup {
                     return {buf}
                 end
             }
-        }, {name = "nvim_lsp"}, {name = "cmp_tabnine"}
+        }, {name = "nvim_lsp"}
     },
     confirm_opts = {behavior = cmp.ConfirmBehavior.Replace, select = false},
     window = {documentation = cmp.config.window.bordered()},
-    experimental = {ghost_text = false, native_menu = false},
-    sorting = {
-        priority_weight = 2,
-        comparators = {
-            require('cmp_tabnine.compare'), compare.offset, compare.exact,
-            compare.score, compare.recently_used, compare.kind,
-            compare.sort_text, compare.length, compare.order
-        }
-    }
+    experimental = {ghost_text = false, native_menu = false}
 }
