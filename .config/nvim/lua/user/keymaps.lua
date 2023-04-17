@@ -1,8 +1,12 @@
 local vim = vim
 
 local function map(mode, lhs, rhs, opts)
-    local options = {noremap = true, silent = true}
-    if opts then options = vim.tbl_extend("force", options) end
+    local default_opts = {noremap = true, silent = true}
+    if opts then
+        options = opts
+    else
+        options = default_opts
+    end
     vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
 
@@ -89,6 +93,10 @@ map("n", "<C-t>", "<CMD>Telescope live_grep<CR>")
 map("n", "<C-x>", "<CMD>Telescope find_files<CR>")
 
 -- clang-format autoformatting
-map("n", "<TAB>", "V:ClangFormat<CR>")
-map("v", "<TAB>", ":ClangFormat<CR>")
+map("n", "<Tab>", "V:ClangFormat<CR>")
+map("v", "<Tab>", ":ClangFormat<CR>")
+
+-- Copilot keymaps
+map("i", "<Tab>", "copilot#Accept('<CR>')",
+    {expr = true, script = true, noremap = true, silent = true})
 
