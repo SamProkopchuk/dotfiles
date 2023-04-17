@@ -3,4 +3,5 @@
 .config/cava
 dotfiles
 **/.git/**
+**/github-copilot/hosts.json
 

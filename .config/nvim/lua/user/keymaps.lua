@@ -99,4 +99,3 @@ map("v", "<Tab>", ":ClangFormat<CR>")
 -- Copilot keymaps
 map("i", "<Tab>", "copilot#Accept('<CR>')",
     {expr = true, script = true, noremap = true, silent = true})
-
