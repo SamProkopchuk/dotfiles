@@ -42,7 +42,7 @@ return packer.startup(function(use)
         "neovim/nvim-lspconfig"
     }
     -- use "nvim-lua/popup.nvim" -- An implementation of the Popup API from vim in Neovim
-    use {"pineapplegiant/spaceduck"}
+    use {"rebelot/kanagawa.nvim"}
     use {
         "nvim-treesitter/nvim-treesitter",
         run = function()
@@ -82,6 +82,7 @@ return packer.startup(function(use)
     use {"moll/vim-bbye"}
     use {"lukas-reineke/indent-blankline.nvim"}
     use {"lervag/vimtex"}
+    use {"nbouscal/vim-stylish-haskell"}
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then require("packer").sync() end
