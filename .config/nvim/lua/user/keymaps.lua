@@ -88,9 +88,9 @@ map("t", "<C-l>", "<C-\\><C-N><C-w>l")
 map("t", "<A-]>", "<C-\\><C-N>")
 map("t", "<ESC>", "<C-\\><C-N>")
 
-map("n", "<C-f>", "<CMD>Telescope current_buffer_fuzzy_find<CR>")
-map("n", "<C-t>", "<CMD>Telescope live_grep<CR>")
-map("n", "<C-x>", "<CMD>Telescope find_files<CR>")
+map("n", "<C-f>", "<CMD>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>")
+map("n", "<C-t>", "<CMD>lua require('telescope.builtin').live_grep()<CR>")
+map("n", "<C-x>", "<CMD>lua require('telescope.builtin').find_files()<CR>")
 
 -- clang-format autoformatting
 map("n", "<Tab>", "V:ClangFormat<CR>")
