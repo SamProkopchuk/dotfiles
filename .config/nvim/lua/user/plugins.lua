@@ -59,9 +59,6 @@ return packer.startup(function(use)
     use {"hrsh7th/nvim-cmp"}
     use {"hrsh7th/cmp-path"}
     use {"hrsh7th/cmp-nvim-lsp"}
-    use {"L3MON4D3/LuaSnip"}
-    use {"saadparwaiz1/cmp_luasnip"}
-    use {"rafamadriz/friendly-snippets"}
     use {"github/copilot.vim"}
     use {"akinsho/toggleterm.nvim", tag = "*"}
     use {"sbdchd/neoformat"}
@@ -82,6 +79,7 @@ return packer.startup(function(use)
     use {"moll/vim-bbye"}
     use {"lukas-reineke/indent-blankline.nvim"}
     use {"lervag/vimtex"}
+    use {"f-person/git-blame.nvim"}
     -- Automatically set up your configuration after cloning packer.nvim
     -- Put this at the end after all plugins
     if PACKER_BOOTSTRAP then require("packer").sync() end
