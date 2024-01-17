@@ -33,7 +33,7 @@ local plugins = {
     },
     {
         "akinsho/bufferline.nvim",
-        tag = "v2.*",
+        version = "*",
         dependencies = "kyazdani42/nvim-web-devicons"
     },
     {"moll/vim-bbye"},
