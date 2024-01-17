@@ -12,9 +12,12 @@ local plugins = {
     {"p00f/clangd_extensions.nvim"},
     {"karb94/neoscroll.nvim"},
     {
-        "kyazdani42/nvim-tree.lua",
-        dependencies = {"kyazdani42/nvim-web-devicons"},
-        tag = "nightly"
+        "nvim-tree/nvim-tree.lua",
+        version = "*",
+        lazy = false,
+        dependencies = {
+          "nvim-tree/nvim-web-devicons",
+        },
     },
     {"github/copilot.vim"},
     {"akinsho/toggleterm.nvim", tag = "*"},
