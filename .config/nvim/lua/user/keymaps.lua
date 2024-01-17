@@ -7,7 +7,29 @@ local function map(mode, lhs, rhs, opts)
     else
         options = default_opts
     end
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+    vim.keymap.set(mode, lhs, rhs, options)
+end
+
+local function is_git_repo()
+    vim.fn.system("git rev-parse --is-inside-work-tree")
+    return vim.v.shell_error == 0
+end
+
+local function get_git_root()
+	local dot_git_path = vim.fn.finddir(".git", ".;")
+	return vim.fn.fnamemodify(dot_git_path, ":h")
+end
+
+local telescope_builtin = require("telescope.builtin")
+
+local function live_grep_from_project_git_root()
+	local opts = is_git_repo() and {cwd = get_git_root()} or {}
+	telescope_builtin.live_grep(opts)
+end
+
+local function find_files_from_project_git_root()
+    local opts = is_git_repo() and {cwd = get_git_root()} or {}
+    telescope_builtin.find_files(opts)
 end
 
 -- gigachad
@@ -32,7 +54,7 @@ vim.g.maplocalleader = vim.g.mapleader
 
 -- All modes:
 -- Close buffer or "tab"<CMD>
-map("", "<C-w>", "<ESC> <CMD>bd<CR><BAR><CMD>bprevious<CR>")
+map("", "<C-w>", "<ESC> <CMD>:Bdelete<CR>")
 map("", "<A-]>", "<ESC>")
 map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
@@ -88,9 +110,9 @@ map("t", "<C-l>", "<C-\\><C-N><C-w>l")
 map("t", "<A-]>", "<C-\\><C-N>")
 map("t", "<ESC>", "<C-\\><C-N>")
 
-map("n", "<C-f>", "<CMD>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>")
-map("n", "<C-t>", "<CMD>lua require('telescope.builtin').live_grep()<CR>")
-map("n", "<C-x>", "<CMD>lua require('telescope.builtin').find_files()<CR>")
+map("n", "<C-f>", telescope_builtin.current_buffer_fuzzy_find)
+map("n", "<C-t>", live_grep_from_project_git_root)
+map("n", "<C-x>", find_files_from_project_git_root)
 
 -- clang-format autoformatting
 map("n", "<Tab>", "V:ClangFormat<CR>")

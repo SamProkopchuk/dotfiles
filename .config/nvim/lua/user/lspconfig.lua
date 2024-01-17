@@ -54,15 +54,15 @@ mason.setup({
     }
 })
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
-lspconfig.clangd.setup {on_attach = on_attach, capabilities = capabilities}
-lspconfig.r_language_server.setup {
-    on_attach = on_attach,
-    capabilities = capabilities
-}
-lspconfig.lua_ls.setup {on_attach = on_attach, capabilities = capabilities}
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+-- 
+-- lspconfig.pyright.setup {on_attach = on_attach, capabilities = capabilities}
+-- lspconfig.clangd.setup {on_attach = on_attach, capabilities = capabilities}
+-- lspconfig.r_language_server.setup {
+--     on_attach = on_attach,
+--     capabilities = capabilities
+-- }
+-- lspconfig.lua_ls.setup {on_attach = on_attach, capabilities = capabilities}
 
 vim.fn.sign_define("LspDiagnosticsSignError",
                    {text = "", numhl = "LspDiagnosticsDefaultError"})
