@@ -1,7 +1,6 @@
-local status_ok, bufferline = pcall(require, "bufferline")
-if not status_ok then return end
+local bufferline = require("bufferline")
 
-bufferline.setup {
+bufferline.setup({
     options = {
         numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         close_command = "Bdelete! %d", -- can be a string | function, see "Mouse actions"
@@ -70,10 +69,10 @@ bufferline.setup {
         -- end
     },
     highlights = {
-        fill = {
-            fg = {attribute = "fg", highlight = "#ff0000"},
-            bg = {attribute = "bg", highlight = "TabLine"}
-        },
+        -- fill = {
+        --     fg = {attribute = "fg", highlight = "#ff0000"},
+        --     bg = {attribute = "bg", highlight = "TabLine"}
+        -- },
         background = {
             fg = {attribute = "fg", highlight = "TabLine"},
             bg = {attribute = "bg", highlight = "TabLine"}
@@ -162,5 +161,5 @@ bufferline.setup {
             bg = {attribute = "bg", highlight = "Normal"}
         }
     }
-}
+})
 
