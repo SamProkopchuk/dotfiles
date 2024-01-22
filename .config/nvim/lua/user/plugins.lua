@@ -34,7 +34,9 @@ local plugins = {
     {
         "akinsho/bufferline.nvim",
         version = "*",
-        dependencies = "kyazdani42/nvim-web-devicons"
+        dependencies = {
+          "nvim-tree/nvim-web-devicons",
+        },
     },
     {"moll/vim-bbye"},
     {"lukas-reineke/indent-blankline.nvim"},
