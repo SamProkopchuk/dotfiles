@@ -1,7 +1,6 @@
 local wezterm = require("wezterm")
 
 local kanagawa_dracula = {
-	force_reverse_video_cursor = true,
 	foreground = "#c5c9c5",
 	background = "#181616",
 
