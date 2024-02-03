@@ -1,4 +1,6 @@
-require("user.options")
+vim.g.mapleader = " "
+vim.g.maplocalleader = vim.g.mapleader
+require("options")
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -13,19 +15,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-require("user.plugins")
+require("lazy").setup("plugins")
+require("keymaps")
 
-require("user.colorscheme")
-require("user.neoscroll")
-require("user.nvim-tree")
-require("user.treesitter")
-require("user.lspconfig")
-require("user.bufferline")
-require("user.toggleterm")
-require("user.indent-blankline")
-require("user.copilot")
-require("user.vimtex")
-require("user.conform")
-require("user.clangd_extensions")
-
-require("user.keymaps")

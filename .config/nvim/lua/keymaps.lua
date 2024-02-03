@@ -32,12 +32,10 @@ local function find_files_from_project_git_root()
     telescope_builtin.find_files(opts)
 end
 
--- gigachad
 map("", "<up>", "<nop>")
 map("", "<down>", "<nop>")
 map("", "<left>", "<nop>")
 map("", "<right>", "<nop>")
--- endgigachad
 
 -- Remap space as leader key
 map("", "<Space>", "<Nop>")
