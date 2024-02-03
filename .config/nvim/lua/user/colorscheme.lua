@@ -2,7 +2,7 @@ local colorscheme = "kanagawa"
 
 require(colorscheme).setup({
     background = {
-        dark = "dragon",
+        dark = "wave",
         light = "lotus"
     },
 })
