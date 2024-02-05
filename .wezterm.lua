@@ -25,7 +25,8 @@ return {
     cursor_blink_ease_out = "Constant",
     adjust_window_size_when_changing_font_size = false,
     warn_about_missing_glyphs = false,
-	force_reverse_video_cursor = true,
+	force_reverse_video_cursor = false,
 	colors = kanagawa_wave,
+    hide_tab_bar_if_only_one_tab = true,
 }
 
