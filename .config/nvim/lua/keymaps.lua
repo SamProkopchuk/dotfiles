@@ -52,7 +52,7 @@ vim.g.maplocalleader = vim.g.mapleader
 
 -- All modes:
 -- Close buffer or "tab"<CMD>
-map("", "<C-w>", "<ESC> <CMD>:Bdelete<CR>")
+map("", "<C-w>", "<ESC> <CMD>Bdelete<CR>")
 map("", "<A-]>", "<ESC>")
 map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
@@ -113,8 +113,8 @@ map("n", "<C-t>", live_grep_from_project_git_root)
 map("n", "<C-x>", find_files_from_project_git_root)
 
 -- clang-format autoformatting
-map("n", "<Tab>", "V:ClangFormat<CR>")
-map("v", "<Tab>", ":ClangFormat<CR>")
+map("n", "<Tab>", "V:Format<CR>")
+map("v", "<Tab>", ":Format<CR>")
 
 -- Copilot keymaps
 map("i", "<Tab>", "copilot#Accept('<CR>')",

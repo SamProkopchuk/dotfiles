@@ -1,34 +1,26 @@
-return {{
+return {
+  {
     "lervag/vimtex",
+    version = "*",
     lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      require("vimtex").setup({
-        compiler = {
-          engine = "xelatex",
-          options = "-file-line-error -synctex=1 -interaction=nonstopmode",
-        },
-        viewer = {
-          program = "zathura",
-          options = { "--fork", "%p" },
-        },
-        fold = {
-          enable = false,
-        },
-        latex = {
-          forwardSearch = {
-            executable = "zathura",
-            args = { "--synctex-forward", "%l:1:%f", "%p" },
-          },
-        },
-        syntax = {
-          items = {
-            { pattern = "\\[a-zA-Z]+", error = true },
-            { pattern = "\\(\\|\\)", error = true },
-            { pattern = "\\[\\|\\]", error = true },
-            { pattern = "\\{\\|\\}", error = true },
-          },
-        },
-      })
+      -- Copied from https://github.com/benbrastmckie/.config/blob/e32069991739b802419b2446ecfb1c796fa4d5b0/nvim/lua/neotex/plugins/vimtex.lua
+      vim.g["vimtex_view_method"] = "zathura_simple" -- for variant without xdotool to avoid errors in wayland
+      vim.g["vimtex_quickfix_mode"] = 0 -- suppress error reporting on save and build
+      vim.g["vimtex_mappings_enabled"] = 0 -- Ignore mappings
+      vim.g["vimtex_indent_enabled"] = 0 -- Auto Indent
+      vim.g["tex_flavor"] = "latex" -- how to read tex files
+      vim.g["tex_indent_items"] = 0 -- turn off enumerate indent
+      vim.g["tex_indent_brace"] = 0 -- turn off brace indent
+      vim.g["vimtex_syntax_enabled"] = 1 -- Syntax highlighting
+      vim.g["vimtex_context_pdf_viewer"] = "okular" -- external PDF viewer run from vimtex menu command
+      vim.g["vimtex_log_ignore"] = { -- Error suppression:
+        "Underfull",
+        "Overfull",
+        "specifier changed to",
+        "Token not allowed in a PDF string",
+      }
     end,
-}}
-
+  },
+}

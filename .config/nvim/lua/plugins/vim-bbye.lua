@@ -1,1 +1,1 @@
-return {{"moll/vim-bbye"}}
+return { { "moll/vim-bbye" } }

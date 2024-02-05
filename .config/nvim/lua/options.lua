@@ -1,8 +1,8 @@
 local vim = vim
 
 local set_tabwidth = function(num_spaces)
-    vim.opt.shiftwidth = num_spaces
-    vim.opt.tabstop = num_spaces
+  vim.opt.shiftwidth = num_spaces
+  vim.opt.tabstop = num_spaces
 end
 
 vim.opt.errorbells = false
@@ -44,6 +44,8 @@ vim.opt.mouse = ""                              -- disable the mouse
 
 -- Change indentation for c, c++, h, files:
 vim.api.nvim_create_autocmd("FileType", {
-    pattern = {"c", "cc", "cpp", "h"},
-    callback = function() set_tabwidth(2) end
+  pattern = { "c", "cc", "cpp", "h" },
+  callback = function()
+    set_tabwidth(2)
+  end,
 })

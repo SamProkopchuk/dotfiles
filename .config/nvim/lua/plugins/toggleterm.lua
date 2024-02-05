@@ -1,6 +1,6 @@
 return {{
   "akinsho/toggleterm.nvim",
-  tag = "*",
+  version = "*",
   lazy = true,
   event = "BufWinEnter",
   config = function()
