@@ -24,9 +24,9 @@ return {
             lua = { "stylua" },
             python = { "isort", "black" },
             rust = { "rustfmt" },
-            c = { "clang-format" },
-            cpp = { "clang-format" },
-            cuda = { "clang-format" },
+            c = { "clang_format" },
+            cpp = { "clang_format" },
+            cuda = { "clang_format" },
             r = { "styler" },
           },
           -- format_on_save = {
