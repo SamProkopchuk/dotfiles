@@ -19,10 +19,10 @@ alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
 config checkout
 ```
 
-Next, you __must__ run the setup_dotfiles.sh script provided:
+Next, run the `check_requirements.sh` script to make sure you have installed the required apps:
 
 ```bash
-chmod +x $HOME/setup_dotfiles.sh && $HOME/setup_dotfiles.sh
+./check_requirements.sh
 ```
 
 Among other things, this ensures only the files in this repo are tracked by git (via the `config` alias).
