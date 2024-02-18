@@ -27,7 +27,7 @@ return {
             c = { "clang_format" },
             cpp = { "clang_format" },
             cuda = { "clang_format" },
-            proto = { "clang_format" },
+            proto = { "buf" },
             r = { "styler" },
           },
           -- format_on_save = {
