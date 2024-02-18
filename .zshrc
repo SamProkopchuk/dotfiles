@@ -116,5 +116,5 @@ source $ZSH/oh-my-zsh.sh
 # Optional aliases file
 [[ ! -f ~/.aliases.zsh ]] || source ~/.aliases.zsh
 # Optional file for additional os-specific config
-[[ ! -f ~/.localconf.zshrc ]] || source ~/.localconf.zshrc
+[[ ! -f ~/.localconf.zsh ]] || source ~/.localconf.zsh
 
