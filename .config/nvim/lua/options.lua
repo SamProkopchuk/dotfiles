@@ -42,9 +42,9 @@ vim.opt.sidescrolloff = 8                       -- minimum number of columns to 
 vim.opt.mouse = ""                              -- disable the mouse
 
 -- Change indentation for c, c++, h, files:
-vim.api.nvim_create_autocmd("FileType", {
-  pattern = { "*.py" },
-  callback = function()
-    set_tabwidth(4)
-  end,
-})
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = { "*.py" },
+--   callback = function()
+--     set_tabwidth(4)
+--   end,
+-- })
