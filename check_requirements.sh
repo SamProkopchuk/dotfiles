@@ -1,7 +1,6 @@
-alias config='/usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME'
-config config --local status.showUntrackedFiles no
+#!/bin/bash
 
-requirements=("zsh" "wezterm" "nvim" "git" "rg" "fzf" "z")
+requirements=("zsh" "nvim" "git" "rg" "fzf")
 
 for cmd in "${requirements[@]}"
 do
@@ -12,12 +11,14 @@ do
     fi
 done
 
-if [[ -z $ZSH_CUSTOM ]]; then
-    echo "ZSH_CUSTOM is not set, please ensure you have oh-my-zsh installed."
-    exit
-fi
+zsh_apps=("/plugins/zsh-autosuggestions" "/plugins/zsh-syntax-highlighting" "/themes/powerlevel10k")
+for zsh_app in "${zsh_apps[@]}"
+do
+  temp=$HOME/.oh-my-zsh/custom$zsh_app
+  if [ ! -d $temp ];
+  then
+    echo "Please install $temp"
+  fi
+done
 
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
+echo "You have all the requirements installed!"
