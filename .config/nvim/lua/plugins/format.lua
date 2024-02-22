@@ -29,6 +29,8 @@ return {
             cuda = { "clang_format" },
             proto = { "clang_format" },
             r = { "styler" },
+            json = { "jq" },
+            html = { "prettier" },
           },
           -- format_on_save = {
           --   lsp_fallback = false,
