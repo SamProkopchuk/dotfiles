@@ -30,13 +30,7 @@ return {
             proto = { "clang_format" },
             r = { "styler" },
             json = { "jq" },
-            html = { "prettier" },
           },
-          -- format_on_save = {
-          --   lsp_fallback = false,
-          --   async = false,
-          --   timeout_ms = 1000,
-          -- },
         })
 
         vim.keymap.set({ "n", "v" }, "<leader>mp", function()
