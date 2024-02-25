@@ -15,7 +15,7 @@ return {
         vim.keymap.set("n", "<C-]>", api.tree.change_root_to_node, opts("Down"))
         vim.keymap.set("n", "<C-r>", api.fs.rename_sub, opts("Rename"))
         vim.keymap.set("n", "<C-v>", api.node.open.vertical, opts("Open: Vertical Split"))
-        vim.keymap.set("n", "<CR>", api.node.open, opts("Open"))
+        vim.keymap.set("n", "<CR>", api.node.open.edit, opts("Open"))
         vim.keymap.set("n", "<BS>", api.node.navigate.parent_close, opts("Close Directory"))
         vim.keymap.set("n", ">", api.node.navigate.sibling.next, opts("Next Sibling"))
         vim.keymap.set("n", "<", api.node.navigate.sibling.prev, opts("Previous Sibling"))
