@@ -10,7 +10,6 @@ return {
           "<C-u>",
           "<C-d>",
           "<C-b>",
-          "<C-f>",
           "<C-y>",
           "<C-e>",
           "zt",
@@ -36,10 +35,6 @@ return {
       t["<C-b>"] = {
         "scroll",
         { "-vim.api.nvim_win_get_height(0)", "true", "200", [["sine"]] },
-      }
-      t["<C-f>"] = {
-        "scroll",
-        { "vim.api.nvim_win_get_height(0)", "true", "200", [["sine"]] },
       }
       -- Pass "nil" to disable the easing animation (constant scrolling speed)
       t["<C-y>"] = { "scroll", { "-0.10", "false", "100", nil } }
