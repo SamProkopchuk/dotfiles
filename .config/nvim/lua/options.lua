@@ -34,7 +34,6 @@ vim.opt.wrap = false                            -- display lines as one long lin
 vim.opt.scrolloff = 8                           -- minimum number of lines to keep above and below cursor (if not at top or bottom)
 vim.opt.sidescrolloff = 8                       -- minimum number of columns to keep to left and right of cursor
 vim.opt.mouse = ""                              -- disable the mouse
-vim.opt.foldmethod = "indent"                   -- fold based on indent
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*.py" },
