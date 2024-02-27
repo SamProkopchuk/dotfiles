@@ -119,3 +119,6 @@ map("v", "<Tab>", ":Format<CR>")
 -- Copilot keymaps
 map("i", "<Tab>", "copilot#Accept('<CR>')",
     {expr = true, script = true, noremap = true, silent = true, replace_keycodes = false})
+
+-- Aerial keymaps
+map("n", "<leader>a", "<CMD>AerialToggle!<CR>")
