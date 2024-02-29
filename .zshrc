@@ -118,3 +118,6 @@ source $ZSH/oh-my-zsh.sh
 # Optional file for additional os-specific config
 [[ ! -f ~/.localconf.zsh ]] || source ~/.localconf.zsh
 
+export TERM="xterm-256color"
+export EDITOR="nvim"
+export VISUAL="nvim"
