@@ -14,6 +14,7 @@ return {
   {
     {
       "stevearc/conform.nvim",
+      tag = "v5.8.0",
       lazy = true,
       event = { "BufReadPre", "BufNewFile" },
       config = function()
