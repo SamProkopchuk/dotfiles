@@ -16,7 +16,7 @@ local gruvbox_material_dark_hard = {
 }
 
 return {
-	font = wezterm.font("Iosevka Curly"),
+	font = wezterm.font("Iosevka Term Curly"),
 	font_size = 16.0,
 	default_cursor_style = "BlinkingBar",
 	cursor_blink_rate = 469,

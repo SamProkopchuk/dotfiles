@@ -31,10 +31,4 @@ See the Atlassian article for more info.
 
 ## Iosevka
 
-To install the custom Iosevka font using `private-build-plans.toml`, follow [these instructions](https://github.com/be5invis/Iosevka/blob/master/doc/custom-build.md).
-
-And build the `.ttf` files using:
-
-```bash
-npm run build -- ttf::iosevka-curly
-```
+The font I use is IosevkaTermCurly, which can probably be found at the most recent release [here](https://github.com/be5invis/Iosevka/releases).
