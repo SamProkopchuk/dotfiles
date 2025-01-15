@@ -1,2 +1,3 @@
 font-family = "Iosevka Term Curly"
 theme = "gruvbox-material"
+cursor-style = bar
