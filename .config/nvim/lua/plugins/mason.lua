@@ -21,8 +21,13 @@ return {
     end,
   },
   {
-    "williamboman/mason-lspconfig.nvim",
-    after = "mason.nvim",
+    "mason-org/mason-lspconfig.nvim",
+    tag = "v1.32.0",
+    opts = {},
+    dependencies = {
+      { "mason-org/mason.nvim", opts = {} },
+      "neovim/nvim-lspconfig",
+    },
     config = function()
       require("mason-lspconfig").setup()
     end,
