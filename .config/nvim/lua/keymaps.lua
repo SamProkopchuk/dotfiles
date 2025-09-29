@@ -78,6 +78,9 @@ map("n", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- Insert --
 
+-- Terminal --
+map("t", "<C-q>", "<C-\\><C-n>")
+
 -- Visual --
 -- Stay in indent mode
 map("v", "<", "<gv")
