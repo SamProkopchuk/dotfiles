@@ -36,13 +36,36 @@ return {
     "neovim/nvim-lspconfig",
     after = "mason-lspconfig.nvim",
     config = function()
-      lspconfig = require("lspconfig")
-      lspconfig.basedpyright.setup({
-        filetypes = { "python" },
-      })
-      lspconfig.clangd.setup({
-        filetypes = { "c", "cpp", "h", "hpp", "cc" },
-      })
+      -- Configure basedpyright
+      vim.lsp.config.basedpyright = {
+        default_config = {
+          cmd = { "basedpyright-langserver", "--stdio" },
+          filetypes = { "python" },
+          root_markers = { "pyproject.toml", "setup.py", "setup.cfg", "requirements.txt", "Pipfile", ".git" },
+          single_file_support = true,
+        },
+      }
+
+      -- Configure clangd
+      vim.lsp.config.clangd = {
+        default_config = {
+          cmd = { "clangd" },
+          filetypes = { "c", "cpp", "h", "hpp", "cc" },
+          root_markers = {
+            ".clangd",
+            ".clang-tidy",
+            ".clang-format",
+            "compile_commands.json",
+            "compile_flags.txt",
+            ".git",
+          },
+          single_file_support = true,
+        },
+      }
+
+      -- Enable the language servers
+      vim.lsp.enable("basedpyright")
+      vim.lsp.enable("clangd")
     end,
   },
 }
