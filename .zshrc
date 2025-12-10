@@ -3,6 +3,9 @@ eval "$(starship init zsh)"
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+
 export EDITOR="nvim"
 export VISUAL="nvim"
 export PATH="$PATH:$HOME/.local/bin"
