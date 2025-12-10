@@ -1,5 +1,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
+add_newline = false
+
 # Configure the prompt to be on two lines:
 # Line 1: Directory, Git Branch, Git Status
 # Line 2: The prompt character (>)
@@ -21,13 +23,13 @@ format = "[$path]($style) "
 
 [git_branch]
 # Format to match "on master" exactly, with no trailing space.
-format = "on [$branch]($style)"
+format = "on [$branch]($style) "
 style = "green"
 
 [git_status]
 style = "yellow"
 # Format with a leading space and no trailing space, making the space conditional.
-format = "[ $all_status$ahead_behind]($style)"
+format = "[$all_status$ahead_behind]($style)"
 # Define the symbols.
 modified = "!"
 untracked = "?"
