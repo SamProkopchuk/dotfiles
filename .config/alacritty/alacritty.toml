@@ -37,12 +37,11 @@ multiplier = 3
 
 # Disable ligatures if you don't need them (can save CPU)
 [font]
-normal = { family = "Iosevka Term Curly" }
+normal = { family = "IosevkaTerm Nerd Font", style = "Regular" }
 builtin_box_drawing = true  # Use built-in characters instead of font
 
 # Reduce decorations
 [window]
-decorations = "None"  # Or "Buttonless" on macOS
 dynamic_title = true
 opacity = 1.0  # Transparency costs performance
 

@@ -5,6 +5,25 @@ set -e
 
 echo "🚀 Setting up dev environment..."
 
+# Check for Homebrew on macOS and warn about sudo requirement
+if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
+    echo "⚠️  Homebrew is not installed."
+    echo "Homebrew installation requires administrator (sudo) access."
+    read -p "Install Homebrew now? (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        echo "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        # Add brew to PATH for Apple Silicon Macs
+        if [[ -f "/opt/homebrew/bin/brew" ]]; then
+            eval "$(/opt/homebrew/bin/brew shellenv)"
+        fi
+    else
+        echo "❌ Homebrew is required for macOS setup. Exiting."
+        exit 1
+    fi
+fi
+
 # Update package list (Ubuntu/Debian)
 if command -v apt-get >/dev/null 2>&1; then
     sudo apt-get update
@@ -76,29 +95,33 @@ if ! command -v nvim >/dev/null 2>&1 || ! nvim --version | grep -q "v0\.\(1[1-9]
     fi
 fi
 
-# Install zsh
-command -v zsh >/dev/null 2>&1 || {
+# Install zsh (if not already present)
+if ! command -v zsh >/dev/null 2>&1; then
     echo "Installing zsh..."
-    [[ "$OSTYPE" == "darwin"* ]] && brew install zsh || sudo apt-get install -y zsh
-    sudo chsh -s $(which zsh) $(whoami)
-}
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install zsh
+    else
+        sudo apt-get install -y zsh
+    fi
+fi
 
-# Install Oh My Zsh
-[[ ! -d $HOME/.oh-my-zsh ]] && {
-    echo "Installing Oh My Zsh..."
-    RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# Install starship prompt
+command -v starship >/dev/null 2>&1 || {
+    echo "Installing starship..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install starship
+    else
+        curl -sS https://starship.rs/install.sh | sh -s -- -y
+    fi
 }
 
 # Install zsh plugins
 echo "Installing zsh plugins..."
-[[ ! -d $HOME/.oh-my-zsh/plugins/zsh-autosuggestions ]] && {
-    git clone https://github.com/zsh-users/zsh-autosuggestions $HOME/.oh-my-zsh/plugins/zsh-autosuggestions
+[[ ! -d $HOME/.zsh/zsh-autosuggestions ]] && {
+    git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
 }
-[[ ! -d $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting ]] && {
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting $HOME/.oh-my-zsh/plugins/zsh-syntax-highlighting
-}
-[[ ! -d $HOME/.oh-my-zsh/themes/powerlevel10k ]] && {
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $HOME/.oh-my-zsh/themes/powerlevel10k
+[[ ! -d $HOME/.zsh/zsh-syntax-highlighting ]] && {
+    git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
 }
 
 # Install zoxide
@@ -111,12 +134,20 @@ command -v zoxide >/dev/null 2>&1 || {
     fi
 }
 
+# Install micromamba
+command -v micromamba >/dev/null 2>&1 || {
+    echo "Installing micromamba..."
+    # Accept default bin folder, decline shell init, accept conda-forge default
+    echo -e "\nn\n" | "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
+}
+
 if [[ ! -d "$HOME/dotfiles" ]]; then
     echo "Setting up dotfiles..."
     git clone --bare https://github.com/SamProkopchuk/dotfiles.git "$HOME/dotfiles"
     # Use a function instead of alias in scripts
     config() {
-        /usr/bin/git --git-dir=$HOME/dotfiles/ --work-tree=$HOME "$@"
+        GIT_PATH=$(command -v git)
+        "$GIT_PATH" --git-dir=$HOME/dotfiles/ --work-tree=$HOME "$@"
     }
     config config --local status.showUntrackedFiles no
     
@@ -141,9 +172,10 @@ if [[ -d $HOME/.tmux/plugins/tpm ]] && [[ -f $HOME/.tmux.conf ]]; then
     echo "✅ Tmux plugins installed"
 fi
 
-touch $HOME/.localconf.zsh
-grep -q "local/bin" $HOME/.localconf.zsh || echo 'export PATH="$PATH:$HOME/.local/bin"' >> $HOME/.localconf.zsh
-grep -q "zoxide" $HOME/.localconf.zsh || echo 'eval "$(zoxide init zsh)"' >> $HOME/.localconf.zsh
+# Create .localconf.zsh for system-specific config
+if [[ ! -f $HOME/.localconf.zsh ]]; then
+    echo "# Add system-specific config to this file" > $HOME/.localconf.zsh
+fi
 
 # Create SSH sockets directory for ControlMaster
 mkdir -p $HOME/.ssh/sockets
@@ -151,7 +183,17 @@ mkdir -p $HOME/.ssh/sockets
 # Change default shell to zsh at the end
 if [[ "$SHELL" != *"zsh"* ]]; then
     echo "Changing default shell to zsh..."
-    sudo chsh -s $(which zsh) $(whoami)
+    ZSH_PATH=$(which zsh)
+
+    # On macOS, ensure zsh is in /etc/shells before changing
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if ! grep -qxF "$ZSH_PATH" /etc/shells; then
+            echo "Adding $ZSH_PATH to /etc/shells..."
+            echo "$ZSH_PATH" | sudo tee -a /etc/shells
+        fi
+    fi
+
+    sudo chsh -s "$ZSH_PATH" "$(whoami)"
 fi
 
 echo "✅ Setup complete!"
