@@ -51,3 +51,14 @@ hide_when_typing = false  # Disabling saves a tiny bit
 
 [hints]
 enabled = []  # Disables URL hints (Ctrl+Shift+U by default)
+
+# Word navigation bindings
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt"
+chars = "\u001Bb"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt"
+chars = "\u001Bf"
