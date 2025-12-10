@@ -37,7 +37,7 @@ staged = "+"
 renamed = "»"
 deleted = "✘"
 conflicted = "="
-stashed = "$"
+stashed = "\\$"
 
 [character]
 # Change the prompt character to a green '>'.
