@@ -1,0 +1,54 @@
+[colors.primary]
+background = '#282828'
+foreground = '#d4be98'
+
+[colors.normal]
+black = '#3c3836'
+red = '#ea6962'
+green = '#a9b665'
+yellow = '#d8a657'
+blue = '#7daea3'
+magenta = '#d3869b'
+cyan = '#89b482'
+white = '#d4be98'
+
+[colors.bright]
+black = '#3c3836'
+red = '#ea6962'
+green = '#a9b665'
+yellow = '#d8a657'
+blue = '#7daea3'
+magenta = '#d3869b'
+cyan = '#89b482'
+white = '#d4be98'
+
+[cursor]
+style = "Block"
+
+# Disable visual bell (reduces rendering overhead)
+[bell]
+animation = "EaseOutExpo"
+duration = 0
+
+# Optimize scrollback (less = faster, but less history)
+[scrolling]
+history = 10000  # Default is 10000, lower if you want more speed
+multiplier = 3
+
+# Disable ligatures if you don't need them (can save CPU)
+[font]
+normal = { family = "Iosevka Term Curly" }
+builtin_box_drawing = true  # Use built-in characters instead of font
+
+# Reduce decorations
+[window]
+decorations = "None"  # Or "Buttonless" on macOS
+dynamic_title = true
+opacity = 1.0  # Transparency costs performance
+
+# Disable mouse/URL hints if you don't use them
+[mouse]
+hide_when_typing = false  # Disabling saves a tiny bit
+
+[hints]
+enabled = []  # Disables URL hints (Ctrl+Shift+U by default)
