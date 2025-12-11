@@ -37,11 +37,6 @@ map("", "<down>", "<nop>")
 map("", "<left>", "<nop>")
 map("", "<right>", "<nop>")
 
--- Remap space as leader key
-map("", "<Space>", "<Nop>")
-vim.g.mapleader = " "
-vim.g.maplocalleader = vim.g.mapleader
-
 -- Modes
 --   normal_mode = "n",
 --   insert_mode = "i",
@@ -51,8 +46,8 @@ vim.g.maplocalleader = vim.g.mapleader
 --   command_mode = "c",
 
 -- All modes:
--- Close buffer or "tab"<CMD>
-map("", "<C-w>", "<ESC> <CMD>Bdelete<CR>")
+-- Close buffer
+map("", "<C-w>", "<ESC> <CMD>bd<CR>")
 map("", "<A-]>", "<ESC>")
 map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
@@ -67,14 +62,6 @@ map("n", "<A-k>", "<CMD>resize -2<CR>")
 map("n", "<A-j>", "<CMD>resize +2<CR>")
 map("n", "<A-h>", "<CMD>vertical resize -2<CR>")
 map("n", "<A-l>", "<CMD>vertical resize +2<CR>")
-
--- Navigate buffers
-map("n", "<S-l>", "<CMD>bnext<CR>")
-map("n", "<S-h>", "<CMD>bprevious<CR>")
-
--- Move text up and down
-map("n", "<A-j>", "<Esc>:m .+1<CR>==gi")
-map("n", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- Insert --
 

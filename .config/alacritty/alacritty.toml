@@ -23,7 +23,8 @@ cyan = '#89b482'
 white = '#d4be98'
 
 [cursor]
-style = "Block"
+# Let Neovim control cursor shape via escape sequences
+unfocused_hollow = true
 
 # Disable visual bell (reduces rendering overhead)
 [bell]

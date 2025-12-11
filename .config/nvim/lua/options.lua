@@ -34,6 +34,7 @@ vim.opt.wrap = false                            -- display lines as one long lin
 vim.opt.scrolloff = 8                           -- minimum number of lines to keep above and below cursor (if not at top or bottom)
 vim.opt.sidescrolloff = 8                       -- minimum number of columns to keep to left and right of cursor
 vim.opt.mouse = ""                              -- disable the mouse
+vim.opt.guicursor = "n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50" -- cursor shapes: block in normal, vertical bar in insert
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "*.py" },
@@ -41,4 +42,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.shiftwidth = 4
     vim.opt_local.tabstop = 4
   end,
+})
+
+-- Auto-reload files when changed externally (e.g., by Claude Code)
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({"FocusGained", "BufEnter", "CursorHold", "CursorHoldI"}, {
+  command = "checktime",
 })

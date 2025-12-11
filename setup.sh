@@ -5,19 +5,19 @@ set -e
 
 echo "🚀 Setting up dev environment..."
 
-# Check for Homebrew on macOS and warn about sudo requirement
+# Check for Homebrew on macOS (install without sudo)
 if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
     echo "⚠️  Homebrew is not installed."
-    echo "Homebrew installation requires administrator (sudo) access."
-    read -p "Install Homebrew now? (y/n) " -n 1 -r
+    read -p "Install Homebrew to $HOME/.homebrew (no sudo required)? (y/n) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        echo "Installing Homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        # Add brew to PATH for Apple Silicon Macs
-        if [[ -f "/opt/homebrew/bin/brew" ]]; then
-            eval "$(/opt/homebrew/bin/brew shellenv)"
-        fi
+        echo "Installing Homebrew to $HOME/.homebrew..."
+        mkdir -p $HOME/.homebrew
+        curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip-components=1 -C $HOME/.homebrew
+
+        # Add brew to PATH for this session
+        eval "$($HOME/.homebrew/bin/brew shellenv)"
+        echo "✅ Homebrew installed to $HOME/.homebrew"
     else
         echo "❌ Homebrew is required for macOS setup. Exiting."
         exit 1
@@ -111,7 +111,7 @@ command -v starship >/dev/null 2>&1 || {
     if [[ "$OSTYPE" == "darwin"* ]]; then
         brew install starship
     else
-        curl -sS https://starship.rs/install.sh | sh -s -- -y
+        curl -sS https://starship.rs/install.sh | sh -s -- -b $HOME/.local/bin -y
     fi
 }
 
