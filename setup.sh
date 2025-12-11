@@ -29,6 +29,20 @@ if command -v apt-get >/dev/null 2>&1; then
     sudo apt-get update
 fi
 
+# Install essential build tools
+if command -v apt-get >/dev/null 2>&1; then
+    echo "Installing essential build tools..."
+    sudo apt-get install -y build-essential make
+fi
+
+# Install newer version of git on Linux
+if command -v apt-get >/dev/null 2>&1; then
+    echo "Installing latest git from PPA..."
+    sudo add-apt-repository ppa:git-core/ppa -y
+    sudo apt-get update
+    sudo apt-get install -y git
+fi
+
 # Install fzf
 if ! command -v fzf >/dev/null 2>&1; then
     echo "Installing fzf..."
@@ -58,6 +72,36 @@ command -v tmux >/dev/null 2>&1 || {
 command -v rg >/dev/null 2>&1 || {
     echo "Installing ripgrep..."
     [[ "$OSTYPE" == "darwin"* ]] && brew install ripgrep || sudo apt-get install -y ripgrep
+}
+
+# Install mosh
+command -v mosh >/dev/null 2>&1 || {
+    echo "Installing mosh..."
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        brew install mosh
+    else
+        echo "Building latest mosh from source..."
+
+        # Install build dependencies
+        sudo apt-get install -y automake libtool g++ protobuf-compiler libprotobuf-dev \
+            libncurses5-dev zlib1g-dev libssl-dev pkg-config
+
+        # Clone and build
+        cd /tmp
+        rm -rf mosh
+        git clone https://github.com/mobile-shell/mosh.git
+        cd mosh
+        ./autogen.sh
+        ./configure
+        make
+        sudo make install
+
+        # Clean up
+        cd ~
+        rm -rf /tmp/mosh
+
+        echo "✅ Mosh installed from source"
+    fi
 }
 
 # Install modern Neovim
@@ -197,5 +241,13 @@ if [[ "$SHELL" != *"zsh"* ]]; then
 fi
 
 echo "✅ Setup complete!"
+echo ""
+echo "Next steps:"
+echo "Set your git username:"
+echo "  git config --global user.name \"Your Name\""
+echo ""
+echo "Set your git email address:"
+echo "  git config --global user.email \"your_email@example.com\""
+echo ""
 echo "Switching to zsh..."
 exec zsh -l
