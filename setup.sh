@@ -185,6 +185,20 @@ command -v micromamba >/dev/null 2>&1 || {
     echo -e "\nn\n" | "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
 }
 
+# Install Rust/Cargo
+command -v cargo >/dev/null 2>&1 || {
+    echo "Installing Rust/Cargo..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    # Source cargo env for this session
+    source $HOME/.cargo/env
+}
+
+# Install aichat
+command -v aichat >/dev/null 2>&1 || {
+    echo "Installing aichat..."
+    cargo install aichat
+}
+
 if [[ ! -d "$HOME/dotfiles" ]]; then
     echo "Setting up dotfiles..."
     git clone --bare https://github.com/SamProkopchuk/dotfiles.git "$HOME/dotfiles"
@@ -241,13 +255,28 @@ if [[ "$SHELL" != *"zsh"* ]]; then
 fi
 
 echo "✅ Setup complete!"
-echo ""
-echo "Next steps:"
-echo "Set your git username:"
-echo "  git config --global user.name \"Your Name\""
-echo ""
-echo "Set your git email address:"
-echo "  git config --global user.email \"your_email@example.com\""
-echo ""
-echo "Switching to zsh..."
-exec zsh -l
+
+# Check if git config needs to be set
+GIT_NAME=$(git config --global user.name 2>/dev/null)
+GIT_EMAIL=$(git config --global user.email 2>/dev/null)
+
+if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
+    echo ""
+    echo "Next steps:"
+    if [[ -z "$GIT_NAME" ]]; then
+        echo "Set your git username:"
+        echo "  git config --global user.name \"Your Name\""
+        echo ""
+    fi
+    if [[ -z "$GIT_EMAIL" ]]; then
+        echo "Set your git email address:"
+        echo "  git config --global user.email \"your_email@example.com\""
+        echo ""
+    fi
+fi
+
+# Switch to zsh only if default shell was just changed
+if [[ "$SHELL" != *"zsh"* ]]; then
+    echo "Switching to zsh..."
+    exec zsh -l
+fi
