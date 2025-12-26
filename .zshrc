@@ -1,3 +1,6 @@
+# Set up PATH first so tools can be found
+export PATH="$PATH:$HOME/.local/bin"
+
 eval "$(starship init zsh)"
 
 source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -21,7 +24,6 @@ bindkey '^[[1;5D' backward-word
 
 export EDITOR="nvim"
 export VISUAL="nvim"
-export PATH="$PATH:$HOME/.local/bin"
 
 eval "$(zoxide init zsh)"
 eval "$(micromamba shell hook --shell zsh)"
