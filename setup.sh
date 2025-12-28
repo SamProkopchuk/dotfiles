@@ -276,5 +276,5 @@ fi
 if [[ "$SHELL" != *"zsh"* ]] && command -v zsh >/dev/null 2>&1; then
     echo ""
     echo "Starting zsh..."
-    exec zsh -l
+    exec zsh -i -l
 fi
