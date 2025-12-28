@@ -24,23 +24,23 @@ if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
     fi
 fi
 
-# Update package list (Ubuntu/Debian)
-if command -v apt-get >/dev/null 2>&1; then
-    sudo apt-get update
-fi
-
 # Install essential build tools
 if command -v apt-get >/dev/null 2>&1; then
-    echo "Installing essential build tools..."
-    sudo apt-get install -y build-essential make
+    if ! dpkg -l | grep -q "^ii  build-essential"; then
+        echo "Installing essential build tools..."
+        sudo apt-get update
+        sudo apt-get install -y build-essential make
+    fi
 fi
 
 # Install newer version of git on Linux
 if command -v apt-get >/dev/null 2>&1; then
-    echo "Installing latest git from PPA..."
-    sudo add-apt-repository ppa:git-core/ppa -y
-    sudo apt-get update
-    sudo apt-get install -y git
+    if ! command -v git >/dev/null 2>&1 || ! grep -qr "git-core/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
+        echo "Installing latest git from PPA..."
+        sudo add-apt-repository ppa:git-core/ppa -y
+        sudo apt-get update
+        sudo apt-get install -y git
+    fi
 fi
 
 # Install fzf
@@ -238,7 +238,7 @@ fi
 # Create SSH sockets directory for ControlMaster
 mkdir -p $HOME/.ssh/sockets
 
-# Change default shell to zsh at the end
+# Change default shell to zsh
 if [[ "$SHELL" != *"zsh"* ]]; then
     echo "Changing default shell to zsh..."
     ZSH_PATH=$(which zsh)
@@ -252,6 +252,7 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     fi
 
     sudo chsh -s "$ZSH_PATH" "$(whoami)"
+    echo "✅ Default shell changed to zsh (reconnect to use it)"
 fi
 
 echo "✅ Setup complete!"
@@ -264,19 +265,16 @@ if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
     echo ""
     echo "Next steps:"
     if [[ -z "$GIT_NAME" ]]; then
-        echo "Set your git username:"
         echo "  git config --global user.name \"Your Name\""
-        echo ""
     fi
     if [[ -z "$GIT_EMAIL" ]]; then
-        echo "Set your git email address:"
         echo "  git config --global user.email \"your_email@example.com\""
-        echo ""
     fi
 fi
 
-# Switch to zsh only if default shell was just changed
-if [[ "$SHELL" != *"zsh"* ]]; then
-    echo "Switching to zsh..."
+# Start zsh if not already running it
+if [[ "$SHELL" != *"zsh"* ]] && command -v zsh >/dev/null 2>&1; then
+    echo ""
+    echo "Starting zsh..."
     exec zsh -l
 fi
