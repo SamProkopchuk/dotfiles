@@ -273,9 +273,13 @@ if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
 fi
 
 # Start zsh if we're currently running bash
+echo "DEBUG: BASH_VERSION=[$BASH_VERSION]"
+echo "DEBUG: zsh path=$(command -v zsh)"
 if [ -n "$BASH_VERSION" ] && command -v zsh >/dev/null 2>&1; then
     echo ""
     echo "🔄 Switching to zsh..."
     sleep 0.5
     exec zsh -i -l
+else
+    echo "DEBUG: Condition failed, not switching to zsh"
 fi
