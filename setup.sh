@@ -221,8 +221,6 @@ else
     echo "✅ Dotfiles already exist"
 fi
 
-echo "DEBUG: About to check tmux plugins..."
-
 # Install tmux plugins (after dotfiles are in place)
 if [[ -d $HOME/.tmux/plugins/tpm ]] && [[ -f $HOME/.tmux.conf ]]; then
     echo "Installing tmux plugins..."
@@ -232,19 +230,13 @@ if [[ -d $HOME/.tmux/plugins/tpm ]] && [[ -f $HOME/.tmux.conf ]]; then
     echo "✅ Tmux plugins install attempted"
 fi
 
-echo "DEBUG: About to create localconf..."
-
 # Create .localconf.zsh for system-specific config
 if [[ ! -f $HOME/.localconf.zsh ]]; then
     echo "# Add system-specific config to this file" > $HOME/.localconf.zsh
 fi
 
-echo "DEBUG: About to create SSH sockets..."
-
 # Create SSH sockets directory for ControlMaster
 mkdir -p $HOME/.ssh/sockets
-
-echo "DEBUG: About to check shell..."
 
 # Change default shell to zsh
 if [[ "$SHELL" != *"zsh"* ]]; then
@@ -264,7 +256,6 @@ if [[ "$SHELL" != *"zsh"* ]]; then
 fi
 
 echo "✅ Setup complete!"
-echo "DEBUG: After setup complete..."
 
 # Check if git config needs to be set
 GIT_NAME=$(git config --global user.name 2>/dev/null || true)
