@@ -275,6 +275,7 @@ fi
 # Start zsh if we're currently running bash
 if [ -n "$BASH_VERSION" ] && command -v zsh >/dev/null 2>&1; then
     echo ""
-    echo "Starting zsh..."
+    echo "🔄 Switching to zsh..."
+    sleep 0.5
     exec zsh -i -l
 fi
