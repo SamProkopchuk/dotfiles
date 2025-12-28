@@ -226,8 +226,8 @@ if [[ -d $HOME/.tmux/plugins/tpm ]] && [[ -f $HOME/.tmux.conf ]]; then
     echo "Installing tmux plugins..."
     # Run the install script directly with TMUX_PLUGIN_MANAGER_PATH set
     export TMUX_PLUGIN_MANAGER_PATH="$HOME/.tmux/plugins/"
-    $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh
-    echo "✅ Tmux plugins installed"
+    $HOME/.tmux/plugins/tpm/scripts/install_plugins.sh || echo "⚠️  Tmux plugin installation encountered an error (non-fatal)"
+    echo "✅ Tmux plugins install attempted"
 fi
 
 # Create .localconf.zsh for system-specific config
