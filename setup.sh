@@ -272,8 +272,8 @@ if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
     fi
 fi
 
-# Start zsh if not already running it
-if [[ "$SHELL" != *"zsh"* ]] && command -v zsh >/dev/null 2>&1; then
+# Start zsh if we're currently running bash
+if [ -n "$BASH_VERSION" ] && command -v zsh >/dev/null 2>&1; then
     echo ""
     echo "Starting zsh..."
     exec zsh -i -l
