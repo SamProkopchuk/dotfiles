@@ -3,11 +3,11 @@ return {
     "williamboman/mason.nvim",
     lazy = false,
     config = function()
-      mason = require("mason")
+      local mason = require("mason")
       mason.setup({
         ensure_installed = {
-          basedpyright = {},
-          clangd = {},
+          "basedpyright",
+          "clangd",
         },
         automatic_installation = true, -- automatically detect which servers to install (based on which servers are set up via lspconfig)
         ui = {
