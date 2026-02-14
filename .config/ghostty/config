@@ -1,3 +1,13 @@
 font-family = "IosevkaTerm Nerd Font"
 theme = "Gruvbox Material"
 cursor-style = bar
+
+# Option+B/F for word movement
+keybind = opt+b=text:\x1bb
+keybind = opt+f=text:\x1bf
+
+# Option+Shift for WORD movement (whitespace-delimited)
+keybind = opt+shift+b=text:\x1bB
+keybind = opt+shift+f=text:\x1bF
+keybind = opt+shift+left=text:\x1bB
+keybind = opt+shift+right=text:\x1bF

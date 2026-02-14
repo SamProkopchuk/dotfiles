@@ -64,6 +64,38 @@ key = "Right"
 mods = "Alt"
 chars = "\u001Bf"
 
+# Option+B/F for word movement
+[[keyboard.bindings]]
+key = "B"
+mods = "Alt"
+chars = "\u001Bb"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Alt"
+chars = "\u001Bf"
+
+# Option+Shift for WORD movement (whitespace-delimited)
+[[keyboard.bindings]]
+key = "B"
+mods = "Alt|Shift"
+chars = "\u001BB"
+
+[[keyboard.bindings]]
+key = "F"
+mods = "Alt|Shift"
+chars = "\u001BF"
+
+[[keyboard.bindings]]
+key = "Left"
+mods = "Alt|Shift"
+chars = "\u001BB"
+
+[[keyboard.bindings]]
+key = "Right"
+mods = "Alt|Shift"
+chars = "\u001BF"
+
 [[keyboard.bindings]]
 key = "Return"
 mods = "Shift"

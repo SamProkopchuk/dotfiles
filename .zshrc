@@ -16,11 +16,18 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey '^[[A' history-beginning-search-backward-end
 bindkey '^[[B' history-beginning-search-forward-end
 
-# Word navigation
+# Only alphanumerics are word characters (makes Option+B/F stop at punctuation like vim's w/b)
+WORDCHARS=''
+
+# Word navigation (Option+B/F, Ctrl+Arrow)
 bindkey '^[b' backward-word
 bindkey '^[f' forward-word
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
+
+# WORD navigation - whitespace-delimited (Option+Shift+B/F)
+bindkey '^[B' vi-backward-blank-word
+bindkey '^[F' vi-forward-blank-word
 
 export EDITOR="nvim"
 export VISUAL="nvim"
