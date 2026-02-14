@@ -54,7 +54,15 @@ if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
 fi
 
 # Simple package installs
-need_cmd fzf      || pkg_install fzf
+if ! need_cmd fzf; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install fzf
+    else
+        git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
+        "$HOME/.fzf/install" --bin
+        ln -sf "$HOME/.fzf/bin/fzf" "$HOME/.local/bin/fzf"
+    fi
+fi
 need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
