@@ -3,10 +3,24 @@
 # Compact development environment setup script
 set -e
 
+IS_MAC=$([[ "$OSTYPE" == "darwin"* ]] && echo 1 || echo 0)
+
+pkg_install() {
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install "$@"
+    else
+        sudo apt-get install -y "$@"
+    fi
+}
+
+need_cmd() {
+    command -v "$1" >/dev/null 2>&1
+}
+
 echo "🚀 Setting up dev environment..."
 
 # Check for Homebrew on macOS (install without sudo)
-if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
+if [[ "$IS_MAC" -eq 1 ]] && ! need_cmd brew; then
     echo "⚠️  Homebrew is not installed."
     read -p "Install Homebrew to $HOME/.homebrew (no sudo required)? (y/n) " -n 1 -r
     echo
@@ -14,8 +28,6 @@ if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
         echo "Installing Homebrew to $HOME/.homebrew..."
         mkdir -p "$HOME/.homebrew"
         curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip-components=1 -C "$HOME/.homebrew"
-
-        # Add brew to PATH for this session
         eval "$("$HOME/.homebrew/bin/brew" shellenv)"
         echo "✅ Homebrew installed to $HOME/.homebrew"
     else
@@ -24,18 +36,15 @@ if [[ "$OSTYPE" == "darwin"* ]] && ! command -v brew >/dev/null 2>&1; then
     fi
 fi
 
-# Install essential build tools
-if command -v apt-get >/dev/null 2>&1; then
+# Linux-only: build tools and latest git
+if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
     if ! dpkg -l | grep -q "^ii  build-essential"; then
         echo "Installing essential build tools..."
         sudo apt-get update
         sudo apt-get install -y build-essential make
     fi
-fi
 
-# Install newer version of git on Linux
-if command -v apt-get >/dev/null 2>&1; then
-    if ! command -v git >/dev/null 2>&1 || ! grep -qr "git-core/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
+    if ! need_cmd git || ! grep -qr "git-core/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
         echo "Installing latest git from PPA..."
         sudo apt-get install -y software-properties-common
         sudo add-apt-repository ppa:git-core/ppa -y
@@ -44,50 +53,21 @@ if command -v apt-get >/dev/null 2>&1; then
     fi
 fi
 
-# Install fzf
-if ! command -v fzf >/dev/null 2>&1; then
-    echo "Installing fzf..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install fzf
-    else
-        sudo apt-get install -y fzf || {
-            git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
-            "$HOME/.fzf/install" --all
-        }
-    fi
-fi
-
-# Install tmux
-command -v tmux >/dev/null 2>&1 || {
-    echo "Installing tmux..."
-    [[ "$OSTYPE" == "darwin"* ]] && brew install tmux || sudo apt-get install -y tmux
-}
-
-# Install TPM
-if [[ ! -d "$HOME/.config/tmux/plugins/tpm" ]]; then
-    echo "Installing TPM..."
-    git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
-fi
-
-# Install ripgrep
-command -v rg >/dev/null 2>&1 || {
-    echo "Installing ripgrep..."
-    [[ "$OSTYPE" == "darwin"* ]] && brew install ripgrep || sudo apt-get install -y ripgrep
-}
+# Simple package installs
+need_cmd fzf    || pkg_install fzf
+need_cmd tmux   || pkg_install tmux
+need_cmd rg     || pkg_install ripgrep
+need_cmd zsh    || pkg_install zsh
 
 # Install mosh
-command -v mosh >/dev/null 2>&1 || {
+if ! need_cmd mosh; then
     echo "Installing mosh..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
         brew install mosh
     else
-        echo "Building latest mosh from source..."
-
-        # Install build dependencies
+        echo "Building mosh from source..."
         sudo apt-get install -y automake libtool g++ protobuf-compiler libprotobuf-dev \
             libncurses5-dev zlib1g-dev libssl-dev pkg-config
-
-        # Clone and build in subshell so cd doesn't affect the main script
         (
             cd /tmp
             rm -rf mosh
@@ -99,42 +79,29 @@ command -v mosh >/dev/null 2>&1 || {
             sudo make install
         )
         rm -rf /tmp/mosh
-
         echo "✅ Mosh installed from source"
     fi
-}
+fi
 
 # Install modern Neovim
 NVIM_MIN_VERSION="0.11"
 nvim_version_ok() {
     local ver
     ver=$(nvim --version | head -1 | sed -E 's/NVIM v([0-9]+\.[0-9]+).*/\1/')
-    local min_major min_minor cur_major cur_minor
-    min_major="${NVIM_MIN_VERSION%%.*}"
-    min_minor="${NVIM_MIN_VERSION##*.}"
-    cur_major="${ver%%.*}"
-    cur_minor="${ver##*.}"
+    local min_major="${NVIM_MIN_VERSION%%.*}" min_minor="${NVIM_MIN_VERSION##*.}"
+    local cur_major="${ver%%.*}" cur_minor="${ver##*.}"
     [[ "$cur_major" -gt "$min_major" ]] || { [[ "$cur_major" -eq "$min_major" ]] && [[ "$cur_minor" -ge "$min_minor" ]]; }
 }
-if ! command -v nvim >/dev/null 2>&1 || ! nvim_version_ok; then
+if ! need_cmd nvim || ! nvim_version_ok; then
     echo "Installing Neovim..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
         brew install neovim
     else
-        # Remove old version if it exists
         sudo apt-get remove -y neovim 2>/dev/null || true
-
-        # Build Neovim from source for Ubuntu 20.04 compatibility
         echo "Building latest stable Neovim from source..."
-
-        # Install build dependencies
         sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
-
-        # Get latest stable release tag
         NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
         echo "Building Neovim ${NVIM_VERSION}..."
-
-        # Clone and build in subshell so cd doesn't affect the main script
         (
             cd /tmp
             rm -rf neovim
@@ -144,30 +111,35 @@ if ! command -v nvim >/dev/null 2>&1 || ! nvim_version_ok; then
             make install
         )
         rm -rf /tmp/neovim
-
         echo "✅ Neovim ${NVIM_VERSION} installed to ~/.local/bin/nvim"
     fi
 fi
 
-# Install zsh (if not already present)
-if ! command -v zsh >/dev/null 2>&1; then
-    echo "Installing zsh..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install zsh
-    else
-        sudo apt-get install -y zsh
-    fi
-fi
-
-# Install starship prompt
-command -v starship >/dev/null 2>&1 || {
+# Install starship
+if ! need_cmd starship; then
     echo "Installing starship..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
         brew install starship
     else
         curl -sS https://starship.rs/install.sh | sh -s -- -b "$HOME/.local/bin" -y
     fi
-}
+fi
+
+# Install zoxide
+if ! need_cmd zoxide; then
+    echo "Installing zoxide..."
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install zoxide
+    else
+        curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
+    fi
+fi
+
+# Install TPM
+if [[ ! -d "$HOME/.config/tmux/plugins/tpm" ]]; then
+    echo "Installing TPM..."
+    git clone https://github.com/tmux-plugins/tpm "$HOME/.config/tmux/plugins/tpm"
+fi
 
 # Install zsh plugins
 echo "Installing zsh plugins..."
@@ -178,53 +150,48 @@ if [[ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]]; then
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$HOME/.zsh/zsh-syntax-highlighting"
 fi
 
-# Install zoxide
-command -v zoxide >/dev/null 2>&1 || {
-    echo "Installing zoxide..."
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        brew install zoxide
-    else
-        curl -sS https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | bash
-    fi
-}
-
-# Install micromamba
-command -v micromamba >/dev/null 2>&1 || {
+# Install micromamba (binary only — shell hook is in .zshrc)
+if ! need_cmd micromamba; then
     echo "Installing micromamba..."
-    # Accept default bin folder, decline shell init, accept conda-forge default
-    echo -e "\nn\n" | "${SHELL}" <(curl -L micro.mamba.pm/install.sh)
-}
+    mkdir -p "$HOME/.local/bin"
+    ARCH=$(uname -m)
+    case "${OSTYPE}-${ARCH}" in
+        darwin*-arm64)   MAMBA_PLATFORM="osx-arm64" ;;
+        darwin*-*)       MAMBA_PLATFORM="osx-64" ;;
+        *-aarch64)       MAMBA_PLATFORM="linux-aarch64" ;;
+        *)               MAMBA_PLATFORM="linux-64" ;;
+    esac
+    curl -fsSL "https://micro.mamba.pm/api/micromamba/${MAMBA_PLATFORM}/latest" | tar -xj -C "$HOME/.local/bin" --strip-components=1 bin/micromamba
+fi
 
 # Install Rust/Cargo
-command -v cargo >/dev/null 2>&1 || {
+if ! need_cmd cargo; then
     echo "Installing Rust/Cargo..."
     curl https://sh.rustup.rs -sSf | sh -s -- -y
-    # Source cargo env for this session
     source "$HOME/.cargo/env"
-}
+fi
 
 # Install aichat
-command -v aichat >/dev/null 2>&1 || {
+if ! need_cmd aichat; then
     echo "Installing aichat..."
     cargo install aichat
-}
+fi
 
+# Set up dotfiles
 if [[ ! -d "$HOME/dotfiles" ]]; then
     echo "Setting up dotfiles..."
     git clone --bare https://github.com/SamProkopchuk/dotfiles.git "$HOME/dotfiles"
-    # Use a function instead of alias in scripts
     config() {
-        GIT_PATH=$(command -v git)
-        "$GIT_PATH" --git-dir="$HOME/dotfiles/" --work-tree="$HOME" "$@"
+        "$(command -v git)" --git-dir="$HOME/dotfiles/" --work-tree="$HOME" "$@"
     }
     config config --local status.showUntrackedFiles no
 
-    # Backup any existing dotfiles that would conflict
-    echo "Backing up existing dotfiles..."
+    # Back up any files that would be overwritten
     mkdir -p "$HOME/.dotfiles-backup"
-    config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | xargs -I{} sh -c 'mkdir -p "$(dirname "$HOME/.dotfiles-backup/{}")" && mv "$HOME/{}" "$HOME/.dotfiles-backup/{}"'
-
-    # Now checkout should work
+    config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; do
+        mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
+        mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
+    done || true
     config checkout
     echo "✅ Dotfiles setup complete (backups in ~/.dotfiles-backup if any)"
 else
@@ -234,7 +201,6 @@ fi
 # Install tmux plugins (after dotfiles are in place)
 if [[ -d "$HOME/.config/tmux/plugins/tpm" ]] && [[ -f "$HOME/.config/tmux/tmux.conf" ]]; then
     echo "Installing tmux plugins..."
-    # Run the install script directly with TMUX_PLUGIN_MANAGER_PATH set
     export TMUX_PLUGIN_MANAGER_PATH="$HOME/.config/tmux/plugins/"
     "$HOME/.config/tmux/plugins/tpm/scripts/install_plugins.sh" || echo "⚠️  Tmux plugin installation encountered an error (non-fatal)"
     echo "✅ Tmux plugins install attempted"
@@ -253,8 +219,7 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     echo "Changing default shell to zsh..."
     ZSH_PATH=$(command -v zsh)
 
-    # On macOS, ensure zsh is in /etc/shells before changing
-    if [[ "$OSTYPE" == "darwin"* ]]; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
         if ! grep -qxF "$ZSH_PATH" /etc/shells; then
             echo "Adding $ZSH_PATH to /etc/shells..."
             echo "$ZSH_PATH" | sudo tee -a /etc/shells
@@ -274,16 +239,12 @@ GIT_EMAIL=$(git config --global user.email 2>/dev/null || true)
 if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
     echo ""
     echo "Next steps:"
-    if [[ -z "$GIT_NAME" ]]; then
-        echo "  git config --global user.name \"Your Name\""
-    fi
-    if [[ -z "$GIT_EMAIL" ]]; then
-        echo "  git config --global user.email \"your_email@example.com\""
-    fi
+    [[ -z "$GIT_NAME" ]] && echo "  git config --global user.name \"Your Name\""
+    [[ -z "$GIT_EMAIL" ]] && echo "  git config --global user.email \"your_email@example.com\""
 fi
 
 # Start zsh if we're currently running bash
-if [ -n "$BASH_VERSION" ] && command -v zsh >/dev/null 2>&1; then
+if [ -n "$BASH_VERSION" ] && need_cmd zsh; then
     echo ""
     echo "🔄 Switching to zsh..."
     exec zsh -i -l
