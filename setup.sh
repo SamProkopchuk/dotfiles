@@ -171,12 +171,6 @@ if ! need_cmd cargo; then
     source "$HOME/.cargo/env"
 fi
 
-# Install aichat
-if ! need_cmd aichat; then
-    echo "Installing aichat..."
-    cargo install aichat
-fi
-
 # Set up dotfiles
 if [[ ! -d "$HOME/dotfiles" ]]; then
     echo "Setting up dotfiles..."
