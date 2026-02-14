@@ -57,7 +57,15 @@ fi
 export EDITOR="nvim"
 export VISUAL="nvim"
 
-eval "$(fzf --zsh)"
+# fzf --zsh requires 0.48+; fall back to manual sourcing for older versions
+if fzf --zsh &>/dev/null; then
+    eval "$(fzf --zsh)"
+elif [[ -f "$HOME/.fzf.zsh" ]]; then
+    source "$HOME/.fzf.zsh"
+elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]]; then
+    source "/usr/share/doc/fzf/examples/key-bindings.zsh"
+    source "/usr/share/doc/fzf/examples/completion.zsh"
+fi
 eval "$(zoxide init zsh)"
 command -v micromamba &>/dev/null && eval "$(micromamba shell hook --shell zsh)"
 
