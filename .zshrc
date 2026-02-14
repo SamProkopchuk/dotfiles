@@ -9,6 +9,15 @@ eval "$(starship init zsh)"
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
+# History
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt INC_APPEND_HISTORY   # Write to history file immediately, not on shell exit
+setopt SHARE_HISTORY        # Share history between all sessions
+setopt HIST_IGNORE_DUPS     # Don't record duplicate consecutive commands
+setopt HIST_IGNORE_SPACE    # Don't record commands starting with a space
+
 # Ensure emacs keybindings (not vi mode)
 bindkey -e
 
