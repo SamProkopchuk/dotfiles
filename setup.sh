@@ -54,12 +54,21 @@ if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
 fi
 
 # Simple package installs
-if ! need_cmd fzf; then
+FZF_MIN_VERSION="0.48"
+fzf_version_ok() {
+    local ver
+    ver=$(fzf --version 2>/dev/null | awk '{print $1}')
+    [[ -n "$ver" ]] && [[ "$(printf '%s\n%s' "$FZF_MIN_VERSION" "$ver" | sort -V | head -1)" == "$FZF_MIN_VERSION" ]]
+}
+if ! need_cmd fzf || ! fzf_version_ok; then
+    echo "Installing fzf (>= $FZF_MIN_VERSION)..."
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install fzf
     else
+        rm -rf "$HOME/.fzf"
         git clone --depth 1 https://github.com/junegunn/fzf.git "$HOME/.fzf"
         "$HOME/.fzf/install" --bin
+        mkdir -p "$HOME/.local/bin"
         ln -sf "$HOME/.fzf/bin/fzf" "$HOME/.local/bin/fzf"
     fi
 fi
