@@ -7,6 +7,7 @@ alias mm='micromamba'
 mmake() { micromamba create -n "$1" python="$2" --use-uv -y; }
 alias ta='tmux attach || tmux new'
 alias gs='git status'
+alias k='kubectl'
 alias gl='git log --graph --pretty=format:"%C(auto)%h %C(blue)%ar %C(green)%an%C(reset)%C(auto)%d %s" --abbrev-commit'
 
 touchp() {
