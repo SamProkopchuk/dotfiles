@@ -20,8 +20,8 @@ source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # History
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=50000
+SAVEHIST=50000
 setopt INC_APPEND_HISTORY   # Write to history file immediately, not on shell exit
 setopt SHARE_HISTORY        # Share history between all sessions
 setopt HIST_IGNORE_DUPS     # Don't record duplicate consecutive commands
@@ -59,7 +59,7 @@ export VISUAL="nvim"
 
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
-eval "$(micromamba shell hook --shell zsh)"
+command -v micromamba &>/dev/null && eval "$(micromamba shell hook --shell zsh)"
 
 source "$HOME/.aliases.zsh"
 # Source system-specific config if it exists

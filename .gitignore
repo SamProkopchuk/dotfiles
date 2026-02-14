@@ -1,6 +1,5 @@
-.config/nvim/~/.nvim/undodir
+.nvim/undodir
 .config/cava
 dotfiles
 **/.git/**
 **/github-copilot/hosts.json
-

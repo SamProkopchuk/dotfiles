@@ -3,7 +3,7 @@
 # Compact development environment setup script
 set -e
 
-IS_MAC=$([[ "$OSTYPE" == "darwin"* ]] && echo 1 || echo 0)
+if [[ "$OSTYPE" == darwin* ]]; then IS_MAC=1; else IS_MAC=0; fi
 
 pkg_install() {
     if [[ "$IS_MAC" -eq 1 ]]; then
