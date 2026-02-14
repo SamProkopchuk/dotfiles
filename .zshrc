@@ -49,6 +49,11 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[B' vi-backward-blank-word
 bindkey '^[F' vi-forward-blank-word
 
+# Use stable SSH agent socket path (updated by ~/.ssh/rc on each SSH connection)
+if [[ -S "$HOME/.ssh/agent_sock" ]]; then
+    export SSH_AUTH_SOCK="$HOME/.ssh/agent_sock"
+fi
+
 export EDITOR="nvim"
 export VISUAL="nvim"
 
