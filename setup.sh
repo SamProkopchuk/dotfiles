@@ -232,6 +232,12 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     echo "✅ Default shell changed to zsh (reconnect to use it)"
 fi
 
+# Include shared git config (won't overwrite existing .gitconfig)
+if ! git config --global --get include.path | grep -qF ".gitconfig_shared"; then
+    git config --global --add include.path "~/.gitconfig_shared"
+    echo "✅ Shared git config included"
+fi
+
 echo "✅ Setup complete!"
 
 # Check if git config needs to be set
