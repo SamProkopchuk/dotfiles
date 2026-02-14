@@ -1,12 +1,7 @@
 local vim = vim
 
 local function map(mode, lhs, rhs, opts)
-  local default_opts = { noremap = true, silent = true }
-  if opts then
-    options = opts
-  else
-    options = default_opts
-  end
+  local options = opts or { noremap = true, silent = true }
   vim.keymap.set(mode, lhs, rhs, options)
 end
 

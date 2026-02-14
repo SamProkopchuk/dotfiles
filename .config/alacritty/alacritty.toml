@@ -63,3 +63,8 @@ chars = "\u001Bb"
 key = "Right"
 mods = "Alt"
 chars = "\u001Bf"
+
+[[keyboard.bindings]]
+key = "Return"
+mods = "Shift"
+chars = "\u001B\r"

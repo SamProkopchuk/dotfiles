@@ -3,8 +3,8 @@ export PATH="$PATH:$HOME/.local/bin"
 
 eval "$(starship init zsh)"
 
-source $HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source $HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # Ensure emacs keybindings (not vi mode)
 bindkey -e
@@ -28,6 +28,6 @@ export VISUAL="nvim"
 eval "$(zoxide init zsh)"
 eval "$(micromamba shell hook --shell zsh)"
 
-source $HOME/.aliases.zsh
+source "$HOME/.aliases.zsh"
 # Source system-specific config if it exists
-[[ ! -f $HOME/.localconf.zsh ]] || source $HOME/.localconf.zsh
+[[ ! -f "$HOME/.localconf.zsh" ]] || source "$HOME/.localconf.zsh"
