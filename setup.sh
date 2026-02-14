@@ -76,6 +76,23 @@ need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
 need_cmd neofetch || pkg_install neofetch
+need_cmd bat      || pkg_install bat
+if ! need_cmd eza; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install eza
+    else
+        cargo install eza
+    fi
+fi
+if ! need_cmd fd; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install fd
+    else
+        pkg_install fd-find
+        # Debian/Ubuntu installs as 'fdfind' to avoid conflict
+        [[ -x "$(command -v fdfind)" ]] && ln -sf "$(command -v fdfind)" "$HOME/.local/bin/fd"
+    fi
+fi
 
 # Install fnm (Fast Node Manager)
 if ! need_cmd fnm; then
