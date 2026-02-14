@@ -2,7 +2,7 @@
 export SHELL=$(command -v zsh)
 
 # Set up PATH first so tools can be found
-export PATH="$PATH:$HOME/.local/bin"
+export PATH="$HOME/.local/bin:$PATH"
 
 # Ensure emacs keybindings (not vi mode) — set before plugins so they respect it
 bindkey -e
