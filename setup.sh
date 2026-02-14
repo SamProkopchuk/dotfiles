@@ -83,7 +83,7 @@ if ! need_cmd fnm; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install fnm
     else
-        curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+        curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/bin" --skip-shell
     fi
 fi
 
