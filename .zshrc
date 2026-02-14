@@ -7,6 +7,12 @@ export PATH="$PATH:$HOME/.local/bin"
 eval "$(starship init zsh)"
 
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+
+# Reload shared history before each prompt so autosuggestions sees other panes' commands
+_reload_history() { fc -R }
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd _reload_history
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # History
