@@ -4,6 +4,9 @@ export SHELL=$(command -v zsh)
 # Set up PATH first so tools can be found
 export PATH="$PATH:$HOME/.local/bin"
 
+# Ensure emacs keybindings (not vi mode) — set before plugins so they respect it
+bindkey -e
+
 eval "$(starship init zsh)"
 
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
@@ -23,9 +26,6 @@ setopt INC_APPEND_HISTORY   # Write to history file immediately, not on shell ex
 setopt SHARE_HISTORY        # Share history between all sessions
 setopt HIST_IGNORE_DUPS     # Don't record duplicate consecutive commands
 setopt HIST_IGNORE_SPACE    # Don't record commands starting with a space
-
-# Ensure emacs keybindings (not vi mode)
-bindkey -e
 
 # History search with cursor at the end
 autoload -U history-search-end

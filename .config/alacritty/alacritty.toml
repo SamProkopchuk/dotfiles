@@ -13,14 +13,14 @@ cyan = '#89b482'
 white = '#d4be98'
 
 [colors.bright]
-black = '#3c3836'
-red = '#ea6962'
-green = '#a9b665'
-yellow = '#d8a657'
-blue = '#7daea3'
-magenta = '#d3869b'
-cyan = '#89b482'
-white = '#d4be98'
+black = '#5a524c'
+red = '#ef938e'
+green = '#bbc585'
+yellow = '#e1bb7e'
+blue = '#9dc2ba'
+magenta = '#e1acbb'
+cyan = '#a4c9a1'
+white = '#e2d3ba'
 
 [cursor]
 # Let Neovim control cursor shape via escape sequences

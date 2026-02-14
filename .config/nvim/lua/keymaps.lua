@@ -1,5 +1,3 @@
-local vim = vim
-
 local function map(mode, lhs, rhs, opts)
   local options = opts or { noremap = true, silent = true }
   vim.keymap.set(mode, lhs, rhs, options)
@@ -27,10 +25,15 @@ local function find_files_from_project_git_root()
   telescope_builtin.find_files(opts)
 end
 
-map("", "<up>", "<nop>")
-map("", "<down>", "<nop>")
-map("", "<left>", "<nop>")
-map("", "<right>", "<nop>")
+-- Disable arrow keys in normal/visual (allows them in command-line mode)
+map("n", "<up>", "<nop>")
+map("n", "<down>", "<nop>")
+map("n", "<left>", "<nop>")
+map("n", "<right>", "<nop>")
+map("v", "<up>", "<nop>")
+map("v", "<down>", "<nop>")
+map("v", "<left>", "<nop>")
+map("v", "<right>", "<nop>")
 
 -- Modes
 --   normal_mode = "n",
@@ -40,9 +43,8 @@ map("", "<right>", "<nop>")
 --   term_mode = "t",
 --   command_mode = "c",
 
--- All modes:
--- Close buffer
-map("", "<C-w>", "<ESC> <CMD>bd<CR>")
+-- Close buffer (uses leader to avoid overriding C-w window commands)
+map("n", "<leader>q", "<CMD>bd<CR>")
 map("", "<A-]>", "<ESC>")
 map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
