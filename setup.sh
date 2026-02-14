@@ -37,6 +37,7 @@ fi
 if command -v apt-get >/dev/null 2>&1; then
     if ! command -v git >/dev/null 2>&1 || ! grep -qr "git-core/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
         echo "Installing latest git from PPA..."
+        sudo apt-get install -y software-properties-common
         sudo add-apt-repository ppa:git-core/ppa -y
         sudo apt-get update
         sudo apt-get install -y git
