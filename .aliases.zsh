@@ -11,8 +11,8 @@ touchp() {
     mkdir -p "$(dirname "$1")" && touch "$1"
 }
 
-# Reset terminal after SSH to clear mouse mode / stale escape sequences
+# Reset terminal after SSH to clear mouse mode and application cursor mode
 ssh() {
     command ssh "$@"
-    printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l'
+    printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1049l\e[?25h\e>'
 }
