@@ -1,3 +1,6 @@
+# Ensure SHELL is set correctly (needed for tmux when chsh hasn't taken effect yet)
+export SHELL=$(command -v zsh)
+
 # Set up PATH first so tools can be found
 export PATH="$PATH:$HOME/.local/bin"
 
