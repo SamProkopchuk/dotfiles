@@ -60,6 +60,16 @@ need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
 need_cmd neofetch || pkg_install neofetch
 
+# Install fnm (Fast Node Manager)
+if ! need_cmd fnm; then
+    echo "Installing fnm..."
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install fnm
+    else
+        curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+    fi
+fi
+
 # Install mosh
 if ! need_cmd mosh; then
     echo "Installing mosh..."

@@ -57,6 +57,7 @@ fi
 export EDITOR="nvim"
 export VISUAL="nvim"
 
+eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(micromamba shell hook --shell zsh)"
 

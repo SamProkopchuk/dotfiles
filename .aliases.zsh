@@ -14,5 +14,7 @@ touchp() {
 # Reset terminal after SSH to clear mouse mode and application cursor mode
 ssh() {
     command ssh "$@"
+    local ret=$?
     printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1049l\e[?25h\e>'
+    return $ret
 }
