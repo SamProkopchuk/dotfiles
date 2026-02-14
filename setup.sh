@@ -54,10 +54,11 @@ if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
 fi
 
 # Simple package installs
-need_cmd fzf    || pkg_install fzf
-need_cmd tmux   || pkg_install tmux
-need_cmd rg     || pkg_install ripgrep
-need_cmd zsh    || pkg_install zsh
+need_cmd fzf      || pkg_install fzf
+need_cmd tmux     || pkg_install tmux
+need_cmd rg       || pkg_install ripgrep
+need_cmd zsh      || pkg_install zsh
+need_cmd neofetch || pkg_install neofetch
 
 # Install mosh
 if ! need_cmd mosh; then
