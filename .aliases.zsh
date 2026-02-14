@@ -6,6 +6,7 @@ alias now='date +%s'
 alias mm='micromamba'
 alias ta='tmux attach || tmux new'
 alias gs='git status'
+alias gl='git log --graph --pretty=format:"%C(auto)%h %C(blue)%ar %C(green)%an%C(reset)%C(auto)%d %s" --abbrev-commit'
 
 touchp() {
     mkdir -p "$(dirname "$1")" && touch "$1"
