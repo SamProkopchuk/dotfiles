@@ -98,19 +98,16 @@ if ! need_cmd nvim || ! nvim_version_ok; then
         brew install neovim
     else
         sudo apt-get remove -y neovim 2>/dev/null || true
-        echo "Building latest stable Neovim from source..."
-        sudo apt-get install -y ninja-build gettext cmake unzip curl build-essential
+        echo "Installing latest stable Neovim from prebuilt binary..."
         NVIM_VERSION=$(curl -s https://api.github.com/repos/neovim/neovim/releases/latest | grep '"tag_name"' | sed -E 's/.*"([^"]+)".*/\1/')
-        echo "Building Neovim ${NVIM_VERSION}..."
-        (
-            cd /tmp
-            rm -rf neovim
-            git clone --depth 1 --branch "${NVIM_VERSION}" https://github.com/neovim/neovim.git
-            cd neovim
-            make CMAKE_BUILD_TYPE=Release CMAKE_INSTALL_PREFIX="$HOME/.local"
-            make install
-        )
-        rm -rf /tmp/neovim
+        echo "Downloading Neovim ${NVIM_VERSION}..."
+        ARCH=$(uname -m)
+        if [[ "$ARCH" == "aarch64" ]]; then
+            NVIM_ARCH="arm64"
+        else
+            NVIM_ARCH="x86_64"
+        fi
+        curl -fsSL "https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-${NVIM_ARCH}.tar.gz" | tar -xz -C "$HOME/.local" --strip-components=1
         echo "✅ Neovim ${NVIM_VERSION} installed to ~/.local/bin/nvim"
     fi
 fi
