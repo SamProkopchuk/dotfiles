@@ -34,7 +34,7 @@ duration = 0
 # Optimize scrollback (less = faster, but less history)
 [scrolling]
 history = 10000  # Default is 10000, lower if you want more speed
-multiplier = 3
+multiplier = 1
 
 # Disable ligatures if you don't need them (can save CPU)
 [font]
