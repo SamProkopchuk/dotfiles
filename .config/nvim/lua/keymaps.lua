@@ -45,8 +45,6 @@ map("v", "<right>", "<nop>")
 
 -- Close buffer (uses leader to avoid overriding C-w window commands)
 map("n", "<leader>q", "<CMD>bd<CR>")
-map("", "<A-]>", "<ESC>")
-map("", "<ESC>", "<C-\\><C-N>")
 -- Better window navigation
 map("", "<leader>e", "<CMD>NvimTreeToggle <CR>")
 
