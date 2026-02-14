@@ -268,9 +268,4 @@ if [[ -z "$GIT_NAME" ]] || [[ -z "$GIT_EMAIL" ]]; then
     [[ -z "$GIT_EMAIL" ]] && echo "  git config --global user.email \"your_email@example.com\""
 fi
 
-# Start zsh if we're currently running bash
-if [ -n "$BASH_VERSION" ] && need_cmd zsh; then
-    echo ""
-    echo "🔄 Switching to zsh..."
-    exec zsh -i -l
-fi
+echo "Restart your shell or run: exec zsh"
