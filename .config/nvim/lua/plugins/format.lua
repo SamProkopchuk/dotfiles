@@ -1,7 +1,6 @@
 return {
   {
-    {
-      "stevearc/conform.nvim",
+    "stevearc/conform.nvim",
       tag = "v9.1.0",
       lazy = true,
       event = { "BufReadPre", "BufNewFile" },
@@ -42,6 +41,5 @@ return {
           })
         end, { desc = "Format file or range (in visual mode)" })
       end,
-    },
   },
 }
