@@ -17,6 +17,12 @@ need_cmd() {
     command -v "$1" >/dev/null 2>&1
 }
 
+ensure_ppa() {
+    if ! grep -qr "${1#ppa:}" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
+        sudo add-apt-repository "$1" -y
+    fi
+}
+
 echo "🚀 Setting up dev environment..."
 
 # Check for Homebrew on macOS (install without sudo)
@@ -36,21 +42,13 @@ if [[ "$IS_MAC" -eq 1 ]] && ! need_cmd brew; then
     fi
 fi
 
-# Linux-only: build tools and latest git
+# Linux-only: add PPAs, update once, install build tools and git
 if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
-    if ! dpkg -l | grep -q "^ii  build-essential"; then
-        echo "Installing essential build tools..."
-        sudo apt-get update
-        sudo apt-get install -y build-essential make
-    fi
-
-    if ! need_cmd git || ! grep -qr "git-core/ppa" /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null; then
-        echo "Installing latest git from PPA..."
-        sudo apt-get install -y software-properties-common
-        sudo add-apt-repository ppa:git-core/ppa -y
-        sudo apt-get update
-        sudo apt-get install -y git
-    fi
+    sudo apt-get install -y software-properties-common
+    ensure_ppa ppa:git-core/ppa
+    ensure_ppa ppa:maveonair/helix-editor
+    sudo apt-get update
+    sudo apt-get install -y build-essential make git
 fi
 
 if ! need_cmd cargo; then
