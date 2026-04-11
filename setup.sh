@@ -102,6 +102,13 @@ if ! need_cmd delta; then
         cargo install git-delta
     fi
 fi
+if ! need_cmd difft; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install difftastic
+    else
+        cargo install difftastic
+    fi
+fi
 if ! need_cmd dust; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install dust
