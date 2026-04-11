@@ -53,6 +53,12 @@ if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
     fi
 fi
 
+if ! need_cmd cargo; then
+    echo "Installing Rust/Cargo..."
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    source "$HOME/.cargo/env"
+fi
+
 # Simple package installs
 FZF_MIN_VERSION="0.48"
 fzf_version_ok() {
@@ -76,7 +82,13 @@ need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
 need_cmd neofetch || pkg_install neofetch
-need_cmd bat      || pkg_install bat
+if ! need_cmd bat; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install bat
+    else
+        cargo install bat
+    fi
+fi
 if ! need_cmd eza; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install eza
@@ -204,13 +216,6 @@ if ! need_cmd micromamba; then
         *)               MAMBA_PLATFORM="linux-64" ;;
     esac
     curl -fsSL "https://micro.mamba.pm/api/micromamba/${MAMBA_PLATFORM}/latest" | tar -xj -C "$HOME/.local/bin" --strip-components=1 bin/micromamba
-fi
-
-# Install Rust/Cargo
-if ! need_cmd cargo; then
-    echo "Installing Rust/Cargo..."
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
-    source "$HOME/.cargo/env"
 fi
 
 # Set up dotfiles
