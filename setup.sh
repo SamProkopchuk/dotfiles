@@ -95,6 +95,41 @@ if ! need_cmd eza; then
         cargo install eza
     fi
 fi
+if ! need_cmd delta; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install git-delta
+    else
+        cargo install git-delta
+    fi
+fi
+if ! need_cmd dust; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install dust
+    else
+        cargo install du-dust
+    fi
+fi
+if ! need_cmd btm; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install bottom
+    else
+        cargo install bottom
+    fi
+fi
+if ! need_cmd procs; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install procs
+    else
+        cargo install procs
+    fi
+fi
+if ! need_cmd hyperfine; then
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install hyperfine
+    else
+        cargo install hyperfine
+    fi
+fi
 if ! need_cmd fd; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install fd
