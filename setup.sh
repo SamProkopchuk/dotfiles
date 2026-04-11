@@ -53,7 +53,7 @@ fi
 
 if ! need_cmd cargo; then
     echo "Installing Rust/Cargo..."
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+    curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
     source "$HOME/.cargo/env"
 fi
 
