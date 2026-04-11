@@ -82,6 +82,7 @@ need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
 need_cmd neofetch || pkg_install neofetch
+need_cmd hx       || pkg_install helix
 if ! need_cmd bat; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install bat
