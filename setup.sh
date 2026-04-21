@@ -23,6 +23,19 @@ ensure_ppa() {
     fi
 }
 
+# Install a Rust CLI tool: brew on macOS, cargo on Linux.
+# Usage: install_rust_tool <bin> <brew-pkg> <cargo-pkg> [extra cargo args...]
+install_rust_tool() {
+    local bin=$1 brew_pkg=$2 cargo_pkg=$3
+    shift 3
+    need_cmd "$bin" && return 0
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install "$brew_pkg"
+    else
+        cargo install "$@" "$cargo_pkg"
+    fi
+}
+
 echo "🚀 Setting up dev environment..."
 
 # Check for Homebrew on macOS (install without sudo)
@@ -76,67 +89,36 @@ if ! need_cmd fzf || ! fzf_version_ok; then
         ln -sf "$HOME/.fzf/bin/fzf" "$HOME/.local/bin/fzf"
     fi
 fi
+# Change default shell to zsh (do this early, before cargo installs that may fail under set -e)
+if [[ "$SHELL" != *"zsh"* ]]; then
+    echo "Changing default shell to zsh..."
+    ZSH_PATH=$(command -v zsh)
+
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        if ! grep -qxF "$ZSH_PATH" /etc/shells; then
+            echo "Adding $ZSH_PATH to /etc/shells..."
+            echo "$ZSH_PATH" | sudo tee -a /etc/shells
+        fi
+    fi
+
+    sudo chsh -s "$ZSH_PATH" "$(whoami)"
+    echo "✅ Default shell changed to zsh (reconnect to use it)"
+fi
+
 need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
 need_cmd neofetch || pkg_install neofetch
 need_cmd hx       || pkg_install helix
-if ! need_cmd bat; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install bat
-    else
-        cargo install bat
-    fi
-fi
-if ! need_cmd eza; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install eza
-    else
-        cargo install eza
-    fi
-fi
-if ! need_cmd delta; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install git-delta
-    else
-        cargo install git-delta
-    fi
-fi
-if ! need_cmd difft; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install difftastic
-    else
-        cargo install difftastic
-    fi
-fi
-if ! need_cmd dust; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install dust
-    else
-        cargo install du-dust
-    fi
-fi
-if ! need_cmd btm; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install bottom
-    else
-        cargo install bottom
-    fi
-fi
-if ! need_cmd procs; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install procs
-    else
-        cargo install procs
-    fi
-fi
-if ! need_cmd hyperfine; then
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install hyperfine
-    else
-        cargo install hyperfine
-    fi
-fi
+install_rust_tool bat            bat            bat
+install_rust_tool eza            eza            eza
+install_rust_tool delta          git-delta      git-delta
+install_rust_tool difft          difftastic     difftastic
+install_rust_tool dust           dust           du-dust
+install_rust_tool btm            bottom         bottom
+install_rust_tool procs          procs          procs
+install_rust_tool hyperfine      hyperfine      hyperfine
+install_rust_tool git-branchless git-branchless git-branchless --locked
 if ! need_cmd fd; then
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install fd
@@ -295,22 +277,6 @@ fi
 
 # Create SSH sockets directory for ControlMaster
 mkdir -p "$HOME/.ssh/sockets"
-
-# Change default shell to zsh
-if [[ "$SHELL" != *"zsh"* ]]; then
-    echo "Changing default shell to zsh..."
-    ZSH_PATH=$(command -v zsh)
-
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        if ! grep -qxF "$ZSH_PATH" /etc/shells; then
-            echo "Adding $ZSH_PATH to /etc/shells..."
-            echo "$ZSH_PATH" | sudo tee -a /etc/shells
-        fi
-    fi
-
-    sudo chsh -s "$ZSH_PATH" "$(whoami)"
-    echo "✅ Default shell changed to zsh (reconnect to use it)"
-fi
 
 # Include shared git config (won't overwrite existing .gitconfig)
 if ! git config --global --get include.path | grep -qF ".gitconfig_shared"; then

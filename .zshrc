@@ -9,23 +9,18 @@ bindkey -e
 
 eval "$(starship init zsh)"
 
-source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
-
-# Reload shared history before each prompt so autosuggestions sees other panes' commands
-_reload_history() { fc -R }
-autoload -Uz add-zsh-hook
-add-zsh-hook precmd _reload_history
-source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-
-# History
+# History — set before plugins so autosuggestions sees the full history on load
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=50000
 SAVEHIST=50000
 setopt INC_APPEND_HISTORY   # Write to history file immediately, not on shell exit
-setopt SHARE_HISTORY        # Share history between all sessions
+setopt SHARE_HISTORY        # Share history between all sessions (re-imports on each prompt)
 setopt HIST_IGNORE_DUPS     # Don't record duplicate consecutive commands
 setopt HIST_IGNORE_SPACE    # Don't record commands starting with a space
+
+source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # History search with cursor at the end
 autoload -U history-search-end
@@ -39,9 +34,7 @@ bindkey '^[OB' history-beginning-search-forward-end
 # Only alphanumerics are word characters (makes Option+B/F stop at punctuation like vim's w/b)
 WORDCHARS=''
 
-# Word navigation (Option+B/F, Ctrl+Arrow)
-bindkey '^[b' backward-word
-bindkey '^[f' forward-word
+# Word navigation (Ctrl+Arrow; Option+B/F are already emacs-mode defaults)
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 

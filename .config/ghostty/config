@@ -2,6 +2,10 @@ font-family = "IosevkaTerm Nerd Font"
 theme = "Gruvbox Material"
 cursor-style = bar
 
+# Report as xterm-256color so tmux's mouse handling works (Ghostty's own
+# xterm-ghostty terminfo uses kmous=\E[< which tmux doesn't wire up correctly)
+term = xterm-256color
+
 # Option+B/F for word movement
 keybind = opt+b=text:\x1bb
 keybind = opt+f=text:\x1bf
