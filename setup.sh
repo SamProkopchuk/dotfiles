@@ -23,7 +23,8 @@ ensure_ppa() {
     fi
 }
 
-# Install a Rust CLI tool: brew on macOS, cargo on Linux.
+# Install a Rust CLI tool: brew on macOS; cargo-binstall (prebuilt binary)
+# on Linux with a cargo-install fallback if no prebuilt is available.
 # Usage: install_rust_tool <bin> <brew-pkg> <cargo-pkg> [extra cargo args...]
 install_rust_tool() {
     local bin=$1 brew_pkg=$2 cargo_pkg=$3
@@ -31,9 +32,12 @@ install_rust_tool() {
     need_cmd "$bin" && return 0
     if [[ "$IS_MAC" -eq 1 ]]; then
         brew install "$brew_pkg"
-    else
-        cargo install "$@" "$cargo_pkg"
+        return 0
     fi
+    if need_cmd cargo-binstall && cargo binstall --no-confirm "$@" "$cargo_pkg"; then
+        return 0
+    fi
+    cargo install "$@" "$cargo_pkg"
 }
 
 echo "🚀 Setting up dev environment..."
@@ -68,6 +72,14 @@ if ! need_cmd cargo; then
     echo "Installing Rust/Cargo..."
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain stable
     source "$HOME/.cargo/env"
+fi
+
+# Install cargo-binstall on Linux so install_rust_tool can fetch prebuilt
+# binaries instead of compiling (faster, avoids toolchain-break build failures).
+if [[ "$IS_MAC" -eq 0 ]] && ! need_cmd cargo-binstall; then
+    echo "Installing cargo-binstall..."
+    curl -L --proto '=https' --tlsv1.2 -sSf \
+        https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
 fi
 
 # Simple package installs
