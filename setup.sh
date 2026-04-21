@@ -89,7 +89,14 @@ if ! need_cmd fzf || ! fzf_version_ok; then
         ln -sf "$HOME/.fzf/bin/fzf" "$HOME/.local/bin/fzf"
     fi
 fi
-# Change default shell to zsh (do this early, before cargo installs that may fail under set -e)
+
+need_cmd tmux     || pkg_install tmux
+need_cmd rg       || pkg_install ripgrep
+need_cmd zsh      || pkg_install zsh
+need_cmd neofetch || pkg_install neofetch
+need_cmd hx       || pkg_install helix
+
+# Change default shell to zsh (after zsh install, before cargo installs that may fail under set -e)
 if [[ "$SHELL" != *"zsh"* ]]; then
     echo "Changing default shell to zsh..."
     ZSH_PATH=$(command -v zsh)
@@ -104,12 +111,6 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     sudo chsh -s "$ZSH_PATH" "$(whoami)"
     echo "✅ Default shell changed to zsh (reconnect to use it)"
 fi
-
-need_cmd tmux     || pkg_install tmux
-need_cmd rg       || pkg_install ripgrep
-need_cmd zsh      || pkg_install zsh
-need_cmd neofetch || pkg_install neofetch
-need_cmd hx       || pkg_install helix
 install_rust_tool bat            bat            bat
 install_rust_tool eza            eza            eza
 install_rust_tool delta          git-delta      git-delta
