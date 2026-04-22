@@ -15,3 +15,6 @@ keybind = opt+shift+b=text:\x1bB
 keybind = opt+shift+f=text:\x1bF
 keybind = opt+shift+left=text:\x1bB
 keybind = opt+shift+right=text:\x1bF
+
+# Shift+Enter inserts a newline without submitting (for Claude Code, etc.)
+keybind = shift+enter=text:\x1b\r

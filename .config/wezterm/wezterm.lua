@@ -35,5 +35,9 @@ return {
     enable_scroll_bar = false,
     hide_tab_bar_if_only_one_tab = true,
     check_for_updates = false,
-    max_fps = 120
+    max_fps = 120,
+    keys = {
+        -- Shift+Enter inserts a newline without submitting (for Claude Code, etc.)
+        { key = "Enter", mods = "SHIFT", action = wezterm.action.SendString("\x1b\r") },
+    }
 }
