@@ -1,5 +1,5 @@
 font-family = "IosevkaTerm Nerd Font"
-theme = "Gruvbox Material"
+theme = github-dark
 cursor-style = bar
 
 # Report as xterm-256color so tmux's mouse handling works (Ghostty's own
