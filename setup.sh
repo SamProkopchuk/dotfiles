@@ -52,6 +52,11 @@ if [[ "$IS_MAC" -eq 1 ]] && ! need_cmd brew; then
         mkdir -p "$HOME/.homebrew"
         curl -L https://github.com/Homebrew/brew/tarball/master | tar xz --strip-components=1 -C "$HOME/.homebrew"
         eval "$("$HOME/.homebrew/bin/brew" shellenv)"
+        # Persist brew on PATH for future shells (custom prefix isn't auto-discovered)
+        BREW_SHELLENV_LINE='eval "$("$HOME/.homebrew/bin/brew" shellenv)"'
+        if ! grep -qF "$BREW_SHELLENV_LINE" "$HOME/.zprofile" 2>/dev/null; then
+            printf '\n# Homebrew (custom prefix from setup.sh)\n%s\n' "$BREW_SHELLENV_LINE" >> "$HOME/.zprofile"
+        fi
         echo "✅ Homebrew installed to $HOME/.homebrew"
     else
         echo "❌ Homebrew is required for macOS setup. Exiting."
