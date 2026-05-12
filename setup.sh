@@ -110,7 +110,7 @@ fi
 need_cmd tmux     || pkg_install tmux
 need_cmd rg       || pkg_install ripgrep
 need_cmd zsh      || pkg_install zsh
-need_cmd neofetch || pkg_install neofetch
+need_cmd fastfetch || pkg_install fastfetch
 need_cmd hx       || pkg_install helix
 
 # Change default shell to zsh (after zsh install, before cargo installs that may fail under set -e)
