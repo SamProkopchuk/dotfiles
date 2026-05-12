@@ -64,9 +64,10 @@ if [[ "$IS_MAC" -eq 1 ]] && ! need_cmd brew; then
     fi
 fi
 
-# Linux-only: add PPAs, update once, install build tools and git
+# Linux-only: install setup.sh's own prereqs, add PPAs, then install build tools
 if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
-    sudo apt-get install -y software-properties-common
+    # Prereqs the rest of this script depends on (curl for installers, gnupg for PPA keys, etc.)
+    sudo apt-get install -y curl ca-certificates gnupg software-properties-common
     ensure_ppa ppa:git-core/ppa
     ensure_ppa ppa:maveonair/helix-editor
     # fastfetch is only in Ubuntu apt repos from 25.04+; use upstream PPA for older releases
