@@ -26,7 +26,9 @@ alias ....='cd ../../..'
 mkcd() { mkdir -p "$1" && cd "$1"; }
 
 # Docker / k8s
-alias k='kubectl'
+alias k='kubecolor'
+alias kns='kubens'
+alias kctx='kubectx'
 alias kgp='kubectl get pods'
 alias d='docker'
 alias dc='docker compose'
