@@ -14,6 +14,9 @@ alias gds='git diff --staged'
 alias gco='git checkout'
 alias gp='git push'
 alias gl='git log --graph --pretty=format:"%C(auto)%h %C(blue)%ar %C(green)%an%C(reset)%C(auto)%d %s" --abbrev-commit'
+alias gt='git-branchless'
+# Push dotfiles from this repo, then sync $HOME via the bare-repo checkout
+alias dpush='git push && config pull'
 
 # Navigation
 alias ..='cd ..'
