@@ -60,7 +60,10 @@ elif [[ -f "/usr/share/doc/fzf/examples/key-bindings.zsh" ]]; then
     source "/usr/share/doc/fzf/examples/completion.zsh"
 fi
 eval "$(zoxide init zsh)"
-command -v micromamba &>/dev/null && eval "$(micromamba shell hook --shell zsh)"
+if command -v micromamba &>/dev/null; then
+    export MAMBA_ROOT_PREFIX="$HOME/micromamba"
+    eval "$(micromamba shell hook --shell zsh)"
+fi
 
 source "$HOME/.aliases.zsh"
 # Source system-specific config if it exists
