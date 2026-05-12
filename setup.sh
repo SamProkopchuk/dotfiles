@@ -220,14 +220,11 @@ if [[ ! -d "$HOME/.zsh/zsh-syntax-highlighting" ]]; then
     git clone --depth=1 https://github.com/zsh-users/zsh-syntax-highlighting "$HOME/.zsh/zsh-syntax-highlighting"
 fi
 
-# Install uv (Python package + env manager)
+# Install uv (Python package + env manager). Astral's installer is recommended on
+# both platforms because uv ships faster than brew's bottling cycle.
 if ! need_cmd uv; then
     echo "Installing uv..."
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install uv
-    else
-        curl -LsSf https://astral.sh/uv/install.sh | sh
-    fi
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
 # Set up dotfiles
