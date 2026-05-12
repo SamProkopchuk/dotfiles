@@ -6,6 +6,8 @@ alias now='date +%s'
 alias ff='fastfetch'
 # Create a global uv venv named after the python version. `uc 3.11.12` => ~/.venvs/3.11.12.
 uc() { uv venv --python "$1" "$HOME/.venvs/$1"; }
+# Activate a global uv venv. `ua 3.11.12` => source ~/.venvs/3.11.12/bin/activate.
+ua() { source "$HOME/.venvs/$1/bin/activate"; }
 alias ta='tmux attach || tmux new'
 
 # Git
