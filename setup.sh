@@ -223,15 +223,17 @@ fi
 # Install micromamba (binary only — shell hook is in .zshrc)
 if ! need_cmd micromamba; then
     echo "Installing micromamba..."
-    mkdir -p "$HOME/.local/bin"
-    ARCH=$(uname -m)
-    case "${OSTYPE}-${ARCH}" in
-        darwin*-arm64)   MAMBA_PLATFORM="osx-arm64" ;;
-        darwin*-*)       MAMBA_PLATFORM="osx-64" ;;
-        *-aarch64)       MAMBA_PLATFORM="linux-aarch64" ;;
-        *)               MAMBA_PLATFORM="linux-64" ;;
-    esac
-    curl -fsSL "https://micro.mamba.pm/api/micromamba/${MAMBA_PLATFORM}/latest" | tar -xj -C "$HOME/.local/bin" --strip-components=1 bin/micromamba
+    if [[ "$IS_MAC" -eq 1 ]]; then
+        brew install micromamba
+    else
+        mkdir -p "$HOME/.local/bin"
+        if [[ "$(uname -m)" == "aarch64" ]]; then
+            MAMBA_PLATFORM="linux-aarch64"
+        else
+            MAMBA_PLATFORM="linux-64"
+        fi
+        curl -fsSL "https://micro.mamba.pm/api/micromamba/${MAMBA_PLATFORM}/latest" | tar -xj -C "$HOME/.local/bin" --strip-components=1 bin/micromamba
+    fi
 fi
 
 # Set up dotfiles
