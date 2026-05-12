@@ -42,6 +42,12 @@ install_rust_tool() {
 
 echo "🚀 Setting up dev environment..."
 
+# Bail early on unsupported platforms (only macOS and Debian/Ubuntu apt-based Linux)
+if [[ "$IS_MAC" -eq 0 ]] && ! need_cmd apt-get; then
+    echo "❌ Unsupported platform: this script supports macOS and Debian/Ubuntu Linux (apt-get)." >&2
+    exit 1
+fi
+
 # Check for Homebrew on macOS (install without sudo)
 if [[ "$IS_MAC" -eq 1 ]] && ! need_cmd brew; then
     echo "⚠️  Homebrew is not installed."
