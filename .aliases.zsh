@@ -9,7 +9,7 @@ uc() { uv venv --python "$1" "$HOME/.venvs/$1"; }
 # Activate a global uv venv. `ua 3.11.12` => source ~/.venvs/3.11.12/bin/activate.
 ua() { source "$HOME/.venvs/$1/bin/activate"; }
 # List global uv venv names under ~/.venvs.
-ul() { ls "$HOME/.venvs" 2>/dev/null; }
+uls() { ls "$HOME/.venvs" 2>/dev/null; }
 alias ta='tmux attach || tmux new'
 
 # Git
