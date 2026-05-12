@@ -69,6 +69,8 @@ if [[ "$IS_MAC" -eq 0 ]] && need_cmd apt-get; then
     sudo apt-get install -y software-properties-common
     ensure_ppa ppa:git-core/ppa
     ensure_ppa ppa:maveonair/helix-editor
+    # fastfetch is only in Ubuntu apt repos from 25.04+; use upstream PPA for older releases
+    ensure_ppa ppa:zhangsongcui3371/fastfetch
     sudo apt-get update
     sudo apt-get install -y build-essential make git
 fi
@@ -154,30 +156,6 @@ if ! need_cmd fnm; then
         brew install fnm
     else
         curl -fsSL https://fnm.vercel.app/install | bash -s -- --install-dir "$HOME/.local/bin" --skip-shell
-    fi
-fi
-
-# Install mosh
-if ! need_cmd mosh; then
-    echo "Installing mosh..."
-    if [[ "$IS_MAC" -eq 1 ]]; then
-        brew install mosh
-    else
-        echo "Building mosh from source..."
-        sudo apt-get install -y automake libtool g++ protobuf-compiler libprotobuf-dev \
-            libncurses5-dev zlib1g-dev libssl-dev pkg-config
-        (
-            cd /tmp
-            rm -rf mosh
-            git clone https://github.com/mobile-shell/mosh.git
-            cd mosh
-            ./autogen.sh
-            ./configure
-            make
-            sudo make install
-        )
-        rm -rf /tmp/mosh
-        echo "✅ Mosh installed from source"
     fi
 fi
 
