@@ -4,6 +4,7 @@ alias config='command git --git-dir="$HOME/dotfiles/" --work-tree="$HOME"'
 alias today='date +%Y%m%d'
 alias now='date +%s'
 alias mm='micromamba'
+alias ff='fastfetch'
 mmake() { micromamba create -n "$1" python="$2" --use-uv -y; }
 alias ta='tmux attach || tmux new'
 
