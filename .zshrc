@@ -19,7 +19,7 @@ setopt HIST_IGNORE_DUPS     # Don't record duplicate consecutive commands
 setopt HIST_IGNORE_SPACE    # Don't record commands starting with a space
 
 source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
-ZSH_AUTOSUGGEST_STRATEGY=(match_prev_cmd history completion)
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 
 # History search with cursor at the end
