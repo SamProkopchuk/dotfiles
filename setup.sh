@@ -133,11 +133,8 @@ fi
 install_rust_tool bat            bat            bat
 install_rust_tool eza            eza            eza
 install_rust_tool delta          git-delta      git-delta
-install_rust_tool difft          difftastic     difftastic
 install_rust_tool dust           dust           du-dust
 install_rust_tool btm            bottom         bottom
-install_rust_tool procs          procs          procs
-install_rust_tool hyperfine      hyperfine      hyperfine
 install_rust_tool git-branchless git-branchless git-branchless --locked
 if ! need_cmd fd; then
     if [[ "$IS_MAC" -eq 1 ]]; then
