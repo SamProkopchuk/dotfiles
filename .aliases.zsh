@@ -38,7 +38,6 @@ alias cat='bat --plain'
 alias ls='eza'
 alias ll='eza -la'
 alias tree='eza --tree --git-ignore'
-alias find='fd'
 
 touchp() {
     mkdir -p "$(dirname "$1")" && touch "$1"
