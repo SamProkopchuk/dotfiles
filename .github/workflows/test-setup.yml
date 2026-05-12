@@ -1,0 +1,38 @@
+name: test-setup
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # setup.sh clones $HOME/dotfiles from GitHub. Pre-stage a bare clone from
+      # this checkout so we exercise the *current* commit, not what's on origin.
+      - name: Pre-stage dotfiles bare repo from current commit
+        run: git clone --bare "$GITHUB_WORKSPACE" "$HOME/dotfiles"
+
+      - name: Run setup.sh
+        run: bash setup.sh
+
+      - name: Verify tools are installed
+        run: |
+          for tool in zsh tmux rg bat eza delta difft dust btm procs hyperfine fd fzf nvim starship zoxide fnm mosh micromamba git-branchless hx; do
+            if ! command -v "$tool" >/dev/null; then
+              echo "MISSING: $tool"
+              exit 1
+            fi
+            echo "OK: $tool"
+          done
+
+      - name: Verify zsh starts and sources .zshrc cleanly
+        run: zsh -c 'source ~/.zshrc && echo zshrc-ok'
