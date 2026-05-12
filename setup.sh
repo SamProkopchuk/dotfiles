@@ -267,6 +267,9 @@ if [[ ! -d "$HOME/dotfiles" ]]; then
         "$(command -v git)" --git-dir="$HOME/dotfiles/" --work-tree="$HOME" "$@"
     }
     config config --local status.showUntrackedFiles no
+    # Skip repo-only paths (CI workflows, etc.) from the $HOME checkout
+    config config --local core.sparseCheckout true
+    printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
 
     # Back up any files that would be overwritten
     mkdir -p "$HOME/.dotfiles-backup"
