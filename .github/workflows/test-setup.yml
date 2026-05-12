@@ -26,7 +26,7 @@ jobs:
 
       - name: Verify tools are installed
         run: |
-          for tool in zsh tmux rg bat eza delta dust btm fd fzf nvim starship zoxide fnm micromamba git-branchless hx fastfetch; do
+          for tool in zsh tmux rg bat eza delta dust btm fd fzf nvim starship zoxide fnm uv git-branchless hx fastfetch; do
             if ! command -v "$tool" >/dev/null; then
               echo "MISSING: $tool"
               exit 1

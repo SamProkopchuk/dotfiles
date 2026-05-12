@@ -3,10 +3,7 @@ alias vim=nvim
 alias config='command git --git-dir="$HOME/dotfiles/" --work-tree="$HOME"'
 alias today='date +%Y%m%d'
 alias now='date +%s'
-alias mm='micromamba'
 alias ff='fastfetch'
-# Create a python env where name == version. `mc 3.11.12` => env "3.11.12" with python 3.11.12.
-mc() { micromamba create -n "$1" python="$1" -y; }
 alias ta='tmux attach || tmux new'
 
 # Git
