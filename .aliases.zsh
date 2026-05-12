@@ -5,7 +5,10 @@ alias today='date +%Y%m%d'
 alias now='date +%s'
 alias mm='micromamba'
 alias ff='fastfetch'
-mmake() { micromamba create -n "$1" python="$2" --use-uv -y; }
+# Create a python env. `mmake foo 3.11.12` => env named foo with python 3.11.12.
+mmake() { micromamba create -n "$1" python="$2" -y; }
+# Shortcut: env name == python version. `mc 3.11.12` => env named 3.11.12 with python 3.11.12.
+mc() { micromamba create -n "$1" python="$1" -y; }
 alias ta='tmux attach || tmux new'
 
 # Git
