@@ -238,27 +238,33 @@ if ! need_cmd micromamba; then
 fi
 
 # Set up dotfiles
-if [[ ! -d "$HOME/dotfiles" ]]; then
-    echo "Setting up dotfiles..."
-    git clone --bare https://github.com/SamProkopchuk/dotfiles.git "$HOME/dotfiles"
-    config() {
-        "$(command -v git)" --git-dir="$HOME/dotfiles/" --work-tree="$HOME" "$@"
-    }
-    config config --local status.showUntrackedFiles no
-    # Skip repo-only paths (CI workflows, etc.) from the $HOME checkout
-    config config --local core.sparseCheckout true
-    printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
+config() {
+    "$(command -v git)" --git-dir="$HOME/dotfiles/" --work-tree="$HOME" "$@"
+}
 
-    # Back up any files that would be overwritten
+if [[ ! -d "$HOME/dotfiles" ]]; then
+    echo "Cloning dotfiles..."
+    git clone --bare https://github.com/SamProkopchuk/dotfiles.git "$HOME/dotfiles"
+fi
+
+# Configure bare repo (idempotent — runs even if repo was pre-staged externally, e.g. in CI)
+config config --local status.showUntrackedFiles no
+config config --local core.sparseCheckout true
+# Skip repo-only paths (CI workflows, etc.) from the $HOME checkout
+printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
+
+# Deploy to $HOME if not yet deployed (.zshrc is the canary)
+if [[ ! -f "$HOME/.zshrc" ]]; then
+    echo "Deploying dotfiles to \$HOME..."
     mkdir -p "$HOME/.dotfiles-backup"
     config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; do
         mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
         mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
     done || true
     config checkout
-    echo "✅ Dotfiles setup complete (backups in ~/.dotfiles-backup if any)"
+    echo "✅ Dotfiles deployed (backups in ~/.dotfiles-backup if any)"
 else
-    echo "✅ Dotfiles already exist"
+    echo "✅ Dotfiles already deployed"
 fi
 
 # Install tmux plugins (after dotfiles are in place)
