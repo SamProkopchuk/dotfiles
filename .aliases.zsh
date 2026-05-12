@@ -4,6 +4,8 @@ alias config='command git --git-dir="$HOME/dotfiles/" --work-tree="$HOME"'
 alias today='date +%Y%m%d'
 alias now='date +%s'
 alias ff='fastfetch'
+# Create a global uv venv named after the python version. `uc 3.11.12` => ~/.venvs/3.11.12.
+uc() { uv venv --python "$1" "$HOME/.venvs/$1"; }
 alias ta='tmux attach || tmux new'
 
 # Git
