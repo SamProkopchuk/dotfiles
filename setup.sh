@@ -231,7 +231,7 @@ fi
 # both platforms because uv ships faster than brew's bottling cycle.
 if ! need_cmd uv; then
     echo "Installing uv..."
-    curl -LsSf https://astral.sh/uv/install.sh | sh
+    curl -LsSf https://astral.sh/uv/install.sh | UV_NO_MODIFY_PATH=1 sh
 fi
 
 # Set up dotfiles
