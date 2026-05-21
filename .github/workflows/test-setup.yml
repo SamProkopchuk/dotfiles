@@ -85,10 +85,6 @@ jobs:
 
       - name: Verify backup of pre-existing ~/.zshrc
         run: |
-          echo "DEBUG: ls ~/.zshrc*:"
-          ls -la "$HOME"/.zshrc* 2>&1 || true
-          echo "DEBUG: ls ~/.dotfiles-backup:"
-          ls -laR "$HOME/.dotfiles-backup" 2>&1 || true
           [[ -f "$HOME/.zshrc.bak" ]] \
             || { echo "MISSING: ~/.zshrc.bak — setup.sh did not back up the seeded .zshrc"; exit 1; }
           grep -q "PRE_EXISTING_ZSHRC_SENTINEL" "$HOME/.zshrc.bak" \
