@@ -257,11 +257,20 @@ printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
 # We check ourselves (rather than parsing checkout output) because sparse-checkout
 # silently overwrites untracked-but-present files with only a stderr warning.
 echo "Deploying dotfiles to \$HOME..."
+echo "DEBUG: pre-deploy ~/.zshrc state:"
+ls -la "$HOME"/.zshrc* 2>&1 || true
+echo "DEBUG: tracked files (first 5):"
+config ls-tree -r HEAD --name-only | head -5
+echo "DEBUG: tracked count = $(config ls-tree -r HEAD --name-only | wc -l)"
 mkdir -p "$HOME/.dotfiles-backup"
-config ls-tree -r HEAD --name-only | while read -r file; do
+while IFS= read -r file; do
     [[ "$file" == .github/* ]] && continue
     [[ -e "$HOME/$file" ]] || continue
-    config show "HEAD:$file" | cmp -s - "$HOME/$file" && continue
+    if config show "HEAD:$file" | cmp -s - "$HOME/$file"; then
+        echo "DEBUG: matches repo, skip: $file"
+        continue
+    fi
+    echo "DEBUG: differs from repo: $file"
     if [[ "$file" == ".zshrc" ]]; then
         backup="$HOME/.zshrc.bak"
         i=1
@@ -275,8 +284,12 @@ config ls-tree -r HEAD --name-only | while read -r file; do
         mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
         mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
     fi
-done
+done < <(config ls-tree -r HEAD --name-only)
+echo "DEBUG: post-loop ~/.zshrc state:"
+ls -la "$HOME"/.zshrc* 2>&1 || true
 config checkout
+echo "DEBUG: post-checkout ~/.zshrc state:"
+ls -la "$HOME"/.zshrc* 2>&1 || true
 echo "✅ Dotfiles deployed (any backups: ~/.zshrc.bak* and ~/.dotfiles-backup/)"
 
 # Install tmux plugins (after dotfiles are in place)
