@@ -102,3 +102,32 @@ jobs:
 
       - name: Verify zsh starts and sources .zshrc cleanly
         run: zsh -c 'source ~/.zshrc && echo zshrc-ok'
+
+      - name: Verify rust-tool aliases resolve in a fresh-shell-like env
+        run: |
+          # Past bug: `ls` (aliased to eza) failed with "zsh: command not found:
+          # eza" in a fresh terminal because ~/.cargo/bin wasn't on PATH from
+          # ~/.zshrc. Strip PATH to system defaults so this test only passes if
+          # ~/.zshrc / brew shellenv add the rust / brew bin dirs themselves —
+          # not because CI's parent env happens to include them.
+          CLEAN_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          run_clean() { env -i HOME="$HOME" TERM=dumb PATH="$CLEAN_PATH" zsh -i -l -c "$1" 2>&1; }
+
+          # eza/bat must be reachable from zsh — otherwise the aliases fail.
+          for tool in eza bat; do
+            out=$(run_clean "command -v $tool")
+            [[ -n "$out" && "$out" != *"not found"* ]] \
+              || { echo "FAIL: $tool not on zsh PATH:"; echo "$out"; exit 1; }
+            echo "OK: $tool reachable at $out"
+          done
+
+          # End-to-end: invoking the aliases must not yield "command not found".
+          for invocation in 'ls --version' 'll --version' 'tree --version' 'cat --version'; do
+            out=$(run_clean "$invocation")
+            if echo "$out" | grep -q "command not found"; then
+              echo "FAIL: '$invocation' produced 'command not found':"
+              echo "$out"
+              exit 1
+            fi
+            echo "OK: $invocation"
+          done
