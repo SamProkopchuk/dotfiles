@@ -21,18 +21,84 @@ jobs:
       - name: Pre-stage dotfiles bare repo from current commit
         run: git clone --bare "$GITHUB_WORKSPACE" "$HOME/dotfiles"
 
+      # Plant a sentinel .zshrc so we can confirm setup.sh backs it up to
+      # ~/.zshrc.bak rather than skipping the deploy.
+      - name: Seed pre-existing ~/.zshrc to exercise backup path
+        run: |
+          rm -f "$HOME/.zshrc.bak" "$HOME"/.zshrc.bak.*
+          echo "# PRE_EXISTING_ZSHRC_SENTINEL" > "$HOME/.zshrc"
+
       - name: Run setup.sh
         run: bash setup.sh
 
-      - name: Verify tools are installed
+      - name: Verify tools are installed and print versions
         run: |
           for tool in zsh tmux rg bat eza delta dust btm fd fzf nvim starship zoxide fnm uv git-branchless hx fastfetch; do
             if ! command -v "$tool" >/dev/null; then
               echo "MISSING: $tool"
               exit 1
             fi
-            echo "OK: $tool"
+            ver=$("$tool" --version 2>/dev/null | head -1 || true)
+            printf 'OK: %-15s %s\n' "$tool" "${ver:-(no --version output)}"
           done
+
+      - name: Verify minimum versions of key tools
+        run: |
+          # version_at_least <current> <min>: 0 if current >= min
+          version_at_least() {
+            [[ "$(printf '%s\n%s' "$2" "$1" | sort -V | head -1)" == "$2" ]]
+          }
+
+          # tmux >= 3.1 is the first version that reads ~/.config/tmux/tmux.conf
+          tmux_ver=$(tmux -V | awk '{print $2}')
+          version_at_least "$tmux_ver" "3.1" \
+            || { echo "tmux $tmux_ver < 3.1 — won't load ~/.config/tmux/tmux.conf"; exit 1; }
+          echo "OK: tmux $tmux_ver (supports XDG config path)"
+
+          fzf_ver=$(fzf --version | awk '{print $1}')
+          version_at_least "$fzf_ver" "0.48" \
+            || { echo "fzf $fzf_ver < 0.48"; exit 1; }
+          echo "OK: fzf $fzf_ver"
+
+          nvim_ver=$(nvim --version | head -1 | sed -E 's/NVIM v([0-9.]+).*/\1/')
+          version_at_least "$nvim_ver" "0.11" \
+            || { echo "nvim $nvim_ver < 0.11"; exit 1; }
+          echo "OK: nvim $nvim_ver"
+
+      - name: Verify dotfiles deployed to $HOME
+        run: |
+          for f in \
+            "$HOME/.zshrc" \
+            "$HOME/.aliases.zsh" \
+            "$HOME/.gitconfig_shared" \
+            "$HOME/.config/starship.toml" \
+            "$HOME/.config/tmux/tmux.conf" \
+            "$HOME/.config/nvim/init.lua"; do
+            [[ -f "$f" ]] || { echo "MISSING: $f"; exit 1; }
+            echo "OK: $f"
+          done
+
+          # ~/.zshrc must match the repo's tracked .zshrc exactly (i.e. it's our
+          # deployed file, not a stub or the seeded sentinel)
+          diff -q "$HOME/.zshrc" "$GITHUB_WORKSPACE/.zshrc"
+          echo "OK: ~/.zshrc matches repo .zshrc"
+
+      - name: Verify backup of pre-existing ~/.zshrc
+        run: |
+          [[ -f "$HOME/.zshrc.bak" ]] \
+            || { echo "MISSING: ~/.zshrc.bak — setup.sh did not back up the seeded .zshrc"; exit 1; }
+          grep -q "PRE_EXISTING_ZSHRC_SENTINEL" "$HOME/.zshrc.bak" \
+            || { echo "~/.zshrc.bak does not contain the seeded sentinel"; exit 1; }
+          ! grep -q "PRE_EXISTING_ZSHRC_SENTINEL" "$HOME/.zshrc" \
+            || { echo "~/.zshrc still contains the seeded sentinel — was not replaced"; exit 1; }
+          echo "OK: setup.sh backed up the seeded .zshrc to ~/.zshrc.bak"
+
+      - name: Verify tmux parses the deployed config
+        run: |
+          # -f forces the config to be parsed when the session starts; a syntax
+          # error in tmux.conf fails this step. Unique -L socket avoids collisions.
+          tmux -L cictest -f "$HOME/.config/tmux/tmux.conf" new-session -d \; kill-server
+          echo "OK: tmux parsed ~/.config/tmux/tmux.conf"
 
       - name: Verify zsh starts and sources .zshrc cleanly
         run: zsh -c 'source ~/.zshrc && echo zshrc-ok'
