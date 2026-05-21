@@ -251,12 +251,17 @@ config config --local core.sparseCheckout true
 printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
 
 # Deploy to $HOME. Re-runs are safe: if working-tree files already match the
-# repo, checkout is a no-op. If they differ, they're backed up first:
+# repo, they're left alone. If they differ, they're backed up first:
 #   .zshrc → ~/.zshrc.bak (or .bak.N on collision)
 #   others → ~/.dotfiles-backup/<path>
+# We check ourselves (rather than parsing checkout output) because sparse-checkout
+# silently overwrites untracked-but-present files with only a stderr warning.
 echo "Deploying dotfiles to \$HOME..."
 mkdir -p "$HOME/.dotfiles-backup"
-config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; do
+config ls-tree -r HEAD --name-only | while read -r file; do
+    [[ "$file" == .github/* ]] && continue
+    [[ -e "$HOME/$file" ]] || continue
+    config show "HEAD:$file" | cmp -s - "$HOME/$file" && continue
     if [[ "$file" == ".zshrc" ]]; then
         backup="$HOME/.zshrc.bak"
         i=1
@@ -270,7 +275,7 @@ config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; d
         mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
         mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
     fi
-done || true
+done
 config checkout
 echo "✅ Dotfiles deployed (any backups: ~/.zshrc.bak* and ~/.dotfiles-backup/)"
 
