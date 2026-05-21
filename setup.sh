@@ -250,19 +250,29 @@ config config --local core.sparseCheckout true
 # Skip repo-only paths (CI workflows, etc.) from the $HOME checkout
 printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
 
-# Deploy to $HOME if not yet deployed (.zshrc is the canary)
-if [[ ! -f "$HOME/.zshrc" ]]; then
-    echo "Deploying dotfiles to \$HOME..."
-    mkdir -p "$HOME/.dotfiles-backup"
-    config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; do
+# Deploy to $HOME. Re-runs are safe: if working-tree files already match the
+# repo, checkout is a no-op. If they differ, they're backed up first:
+#   .zshrc → ~/.zshrc.bak (or .bak.N on collision)
+#   others → ~/.dotfiles-backup/<path>
+echo "Deploying dotfiles to \$HOME..."
+mkdir -p "$HOME/.dotfiles-backup"
+config checkout 2>&1 | grep -E "^\s+" | awk '{print $1}' | while read -r file; do
+    if [[ "$file" == ".zshrc" ]]; then
+        backup="$HOME/.zshrc.bak"
+        i=1
+        while [[ -e "$backup" ]]; do
+            backup="$HOME/.zshrc.bak.$i"
+            i=$((i+1))
+        done
+        echo "Backing up existing ~/.zshrc → $backup"
+        mv "$HOME/.zshrc" "$backup"
+    else
         mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
         mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
-    done || true
-    config checkout
-    echo "✅ Dotfiles deployed (backups in ~/.dotfiles-backup if any)"
-else
-    echo "✅ Dotfiles already deployed"
-fi
+    fi
+done || true
+config checkout
+echo "✅ Dotfiles deployed (any backups: ~/.zshrc.bak* and ~/.dotfiles-backup/)"
 
 # Install tmux plugins (after dotfiles are in place)
 if [[ -d "$HOME/.config/tmux/plugins/tpm" ]] && [[ -f "$HOME/.config/tmux/tmux.conf" ]]; then
