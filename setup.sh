@@ -250,14 +250,11 @@ config config --local core.sparseCheckout true
 # Skip repo-only paths (CI workflows, etc.) from the $HOME checkout
 printf '/*\n!.github/\n' > "$HOME/dotfiles/info/sparse-checkout"
 
-# Deploy to $HOME. Re-runs are safe: if working-tree files already match the
-# repo, they're left alone. If they differ, they're backed up first:
-#   .zshrc → ~/.zshrc.bak (or .bak.N on collision)
-#   others → ~/.dotfiles-backup/<path>
-# We check ourselves (rather than parsing checkout output) because sparse-checkout
-# silently overwrites untracked-but-present files with only a stderr warning.
-# cd $HOME so ls-tree's implicit cwd pathspec doesn't filter out everything when
-# this script is invoked from a subdir of $HOME (e.g. CI runs from $GITHUB_WORKSPACE).
+# Deploy to $HOME. Mismatched files are backed up first (.zshrc → ~/.zshrc.bak[.N],
+# others → ~/.dotfiles-backup/<path>); matching files are left alone. We back up
+# pre-checkout because sparse-checkout silently overwrites untracked-but-present
+# files with only a stderr warning. cd $HOME first so ls-tree's implicit cwd
+# pathspec covers the work-tree root (CI invokes us from $GITHUB_WORKSPACE).
 echo "Deploying dotfiles to \$HOME..."
 cd "$HOME"
 mkdir -p "$HOME/.dotfiles-backup"
