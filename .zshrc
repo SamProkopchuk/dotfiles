@@ -3,10 +3,9 @@ export SHELL=$(command -v zsh)
 
 # Set up PATH first so tools can be found
 export PATH="$HOME/.local/bin:$PATH"
-# Rust-installed tools (eza, bat, delta, ...) live in ~/.cargo/bin. Add it here
-# so non-login interactive shells (where ~/.zprofile / cargo env aren't sourced)
-# still resolve them — otherwise `ls` → eza fails with "command not found".
-[[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
+# Cargo's env script idempotently prepends ~/.cargo/bin so rust-installed tools
+# (eza, bat, delta, ...) resolve in non-login interactive shells too.
+[[ -f "$HOME/.cargo/env" ]] && . "$HOME/.cargo/env"
 # Homebrew shellenv — pick up brew's PATH/etc in non-login interactive shells too.
 for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew "$HOME/.homebrew/bin/brew"; do
     [[ -x "$_brew" ]] && eval "$("$_brew" shellenv)" && break
