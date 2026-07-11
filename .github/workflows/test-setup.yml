@@ -114,8 +114,12 @@ jobs:
           run_clean() { env -i HOME="$HOME" TERM=dumb PATH="$CLEAN_PATH" zsh -i -l -c "$1" 2>&1; }
 
           # eza/bat must be reachable from zsh — otherwise the aliases fail.
+          # `|| true` on each assignment: run_clean's exit status is zsh's,
+          # which is nonzero when the tool isn't found — under `set -e` that
+          # would kill the script here, before the check below gets to run
+          # and print a useful FAIL message.
           for tool in eza bat; do
-            out=$(run_clean "command -v $tool")
+            out=$(run_clean "command -v $tool") || true
             [[ -n "$out" && "$out" != *"not found"* ]] \
               || { echo "FAIL: $tool not on zsh PATH:"; echo "$out"; exit 1; }
             echo "OK: $tool reachable at $out"
@@ -123,7 +127,7 @@ jobs:
 
           # End-to-end: invoking the aliases must not yield "command not found".
           for invocation in 'ls --version' 'll --version' 'tree --version' 'cat --version'; do
-            out=$(run_clean "$invocation")
+            out=$(run_clean "$invocation") || true
             if echo "$out" | grep -q "command not found"; then
               echo "FAIL: '$invocation' produced 'command not found':"
               echo "$out"
