@@ -3,14 +3,11 @@ export SHELL=$(command -v zsh)
 
 # Set up PATH first so tools can be found
 export PATH="$HOME/.local/bin:$PATH"
-# Rust-installed tools (eza, bat, delta, ...) live in ~/.cargo/bin. Source
-# rustup's env if it exists (idempotent prepend); otherwise add the dir
-# ourselves — some images (e.g. GHA Ubuntu) ship cargo without ~/.cargo/env.
-if [[ -f "$HOME/.cargo/env" ]]; then
-    . "$HOME/.cargo/env"
-elif [[ -d "$HOME/.cargo/bin" ]]; then
-    export PATH="$HOME/.cargo/bin:$PATH"
-fi
+# Rust-installed tools (eza, bat, delta, ...) live in ~/.cargo/bin. Add it
+# directly rather than sourcing ~/.cargo/env — on GHA's Ubuntu image that
+# file is a stale /etc/skel template hardcoding /etc/skel/.cargo/bin, not
+# the real user's cargo dir.
+[[ -d "$HOME/.cargo/bin" ]] && export PATH="$HOME/.cargo/bin:$PATH"
 # Homebrew shellenv — pick up brew's PATH/etc in non-login interactive shells too.
 for _brew in /opt/homebrew/bin/brew /usr/local/bin/brew "$HOME/.homebrew/bin/brew"; do
     [[ -x "$_brew" ]] && eval "$("$_brew" shellenv)" && break
