@@ -11,6 +11,9 @@ ua() { source "$HOME/.venvs/$1/bin/activate"; }
 # List global uv venv names under ~/.venvs.
 uls() { ls "$HOME/.venvs" 2>/dev/null; }
 alias ta='tmux attach || tmux new'
+alias tz='tar --zstd'
+alias tzx='tar --zstd -xf'
+tzc() { tar --zstd -cf "$(basename "$1").tar.zstd" "$1"; }
 
 # Git
 alias gs='git status'
