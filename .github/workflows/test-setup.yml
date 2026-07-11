@@ -120,12 +120,14 @@ jobs:
           # and print a useful FAIL message.
           for tool in eza bat; do
             out=$(run_clean "command -v $tool") || true
-            # zsh's non-interactive noise (starship/compinit/zle warnings under
-            # a fake TTY) never starts with '/' — require an actual path so
-            # that noise can't be mistaken for a resolved binary.
-            [[ "$out" == /* ]] \
+            # zsh prints non-interactive noise (starship/compinit/zle warnings
+            # under a fake TTY) on its own lines before the real result — check
+            # only the last line so that noise can't be mistaken for a
+            # resolved binary path.
+            last_line=$(tail -n1 <<< "$out")
+            [[ "$last_line" == /* ]] \
               || { echo "FAIL: $tool not on zsh PATH:"; echo "$out"; exit 1; }
-            echo "OK: $tool reachable at $out"
+            echo "OK: $tool reachable at $last_line"
           done
 
           # End-to-end: invoking the aliases must not yield "command not found".
